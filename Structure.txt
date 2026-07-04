@@ -1,0 +1,9 @@
+OMRChecker/
+├── inputs/my_test/           # โฟลเดอร์รับรูป "student_sheet.jpg" ที่ถ่ายส่งมา
+├── outputs/                  # โฟลเดอร์เก็บไฟล์ CSV หลังจากระบบตรวจเสร็จ
+│   ├── my_test/results.csv   # (สำหรับโหมดปกติ)
+│   └── Results/Results_xx.csv # (สำหรับโหมดที่มีไฟล์ evaluation.json = มีเฉลย)
+└── web_app/                  # โฟลเดอร์หลักของระบบเว็บที่เราทำเพิ่ม
+├── app.py                # ส่วน Backend (FastAPI) คอยสั่งรัน OMR และจัดการไฟล์ CSV
+└── templates/
+└── index.html        # ส่วน Frontend 
