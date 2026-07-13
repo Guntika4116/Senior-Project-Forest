@@ -39,6 +39,7 @@ pip install fastapi uvicorn pandas jinja2 python-multipart
 
 ```bash
 # 1. เข้าไปที่โฟลเดอร์เว็บของเรา
+cd OMRChecker
 cd web_app
 
 # 2. สั่งรันเซิร์ฟเวอร์ (แชร์ให้อุปกรณ์อื่นใน Wi-Fi เข้ามาได้)
