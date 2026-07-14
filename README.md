@@ -45,6 +45,9 @@ cd web_app
 # 2. สั่งรันเซิร์ฟเวอร์ (แชร์ให้อุปกรณ์อื่นใน Wi-Fi เข้ามาได้)
 python3 app.py ->mac
 python app.py ->window
+
+# 3.หาไอพีเครื่อง
+ipconfig getifaddr en0 ->mac
 ```
 *ถ้ารันสำเร็จ ใน Terminal มันจะขึ้นว่า `INFO: Uvicorn running on http://0.0.0.0:8000` ถือว่าพร้อมใช้งาน!*
 
