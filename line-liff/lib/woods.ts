@@ -13,7 +13,7 @@ export type Wood = {
 export type WoodFilters = Record<string, string>;
 
 // แปลง filters object ให้เป็น query string สำหรับต่อท้าย URL
-// ตัดค่า all ทิ้งเสมอ เพราะ backend ไม่จำเป็นต้องรู้จักคำว่า all
+// ตัดค่า all ทิ้ง
 function buildQueryParams(filters: WoodFilters): string {
   const params = new URLSearchParams();
   Object.entries(filters).forEach(([key, value]) => {
