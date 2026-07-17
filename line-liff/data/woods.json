@@ -1,0 +1,38 @@
+[
+  {
+    "id": "wood-001",
+    "name": "ไม้สัก",
+    "scientificName": "Tectona grandis",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10"
+  },
+  {
+    "id": "wood-002",
+    "name": "ไม้ประดู่",
+    "scientificName": "Pterocarpus macrocarpus",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10"
+  },
+  {
+    "id": "wood-003",
+    "name": "ไม้แดง",
+    "scientificName": "Xylia xylocarpa",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10"
+  },
+  {
+    "id": "wood-004",
+    "name": "ไม้ตะเคียนทอง",
+    "scientificName": "Hopea odorata",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10g"
+  },
+  {
+    "id": "wood-005",
+    "name": "ไม้ยางนา",
+    "scientificName": "Dipterocarpus alatus",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10g"
+  },
+  {
+    "id": "wood-006",
+    "name": "ไม้พะยูง",
+    "scientificName": "Dalbergia cochinchinensis",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10g"
+  }
+]
