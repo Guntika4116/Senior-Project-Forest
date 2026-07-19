@@ -30,8 +30,8 @@ src/
 │     ├─ WoodCard.tsx         # การ์ดแสดงไม้แต่ละชนิดในหน้ารวม
 │     └─ DetailAccordion.tsx  # กล่องพับ/กางแสดงรายละเอียดแต่ละหมวด 
 ├─ data/
-│  ├─ woodDetail.json         # :star: ข้อมูลหลักของไม้แต่ละชนิด (ไฟล์ที่ต้องเพิ่ม/แก้บ่อยที่สุด)
-│  └─ filterWoods.json        # :star: ตัวเลือกของฟิลเตอร์ ใช้กับ filter
+│  ├─ woodDetail.json         # ⚠️ ข้อมูลหลักของไม้แต่ละชนิด (ไฟล์ที่ต้องเพิ่ม/แก้บ่อยที่สุด)
+│  └─ filterWoods.json        # ⚠️ ตัวเลือกของฟิลเตอร์ ใช้กับ filter
 └─ lib/
    └─ woods.ts                # ฟังก์ชันเรียก API ภายนอก (getWoods, getWoodById)
 ```
