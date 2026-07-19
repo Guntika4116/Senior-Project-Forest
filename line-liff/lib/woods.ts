@@ -1,13 +1,14 @@
 export type Wood = {
   id: string;
-  common_name: string;
-  scientific_name: string;
+  commonname: string;
+  scientificname: string;
+  distribution: string;
+  imageUrl: { url: string }[];
   wood_taste: string | null;
   wood_odor: string | null;
   wood_texture: string | null;
   wood_weight: string | null;
   growth_rings: string | null;
-  images: { url: string }[];
 };
 
 export type WoodFilters = Record<string, string>;

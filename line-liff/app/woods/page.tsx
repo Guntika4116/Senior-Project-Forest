@@ -7,7 +7,7 @@ import Search from "@/components/Search";
 import WoodCard from "@/components/wood/WoodCard";
 import woodFilterData from "@/data/filterWoods.json";
 import { getWoods, type Wood } from "@/lib/woods";
-import woodsData from "@/data/woods.json";
+import woodDetail from "@/data/woodDetail.json";
 
 // ตั้งค่าเริ่มต้นตัวกรองให้เป็น all
 function getDefaultFilters(): Record<string, string> {
@@ -31,10 +31,6 @@ export default function Home() {
   // ค่าที่กดนำไปใช้เรียก getWoods()
   // แยกจาก filters เพื่อไม่ให้ยิง fetch ทุกครั้งที่กดเลือกตัวเลือก (รอกดปุ่มนำไปใช้ก่อน)
   const [appliedFilters, setAppliedFilters] = useState<Record<string, string>>(getDefaultFilters());
-
-  const [woods, setWoods] = useState<Wood[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // นับจำนวนตัวกรองที่เลือก โดยค่าต้องไม่ใช่ null, undefined และตัวเลือกทั้งหมด
   const activeCount = Object.values(filters).filter(
@@ -70,19 +66,8 @@ export default function Home() {
     setOpen(false);
   }
 
-  // ทำงานทุกครั้งที่ appliedFilters เปลี่ยน (รวมถึงตอนโหลดหน้าครั้งแรกด้วย)
-  useEffect(() => {
-    setIsLoading(true);
-    setError(null);
-
-    getWoods(appliedFilters)
-      .then((data) => setWoods(data))
-      .catch(() => setError("โหลดข้อมูลไม่สำเร็จ ลองใหม่อีกครั้ง"))
-      .finally(() => setIsLoading(false));
-  }, [appliedFilters]);
-
   return (
-    <main className="m-6 font-sans">
+    <main className="m-6">
       <div>
         <h1 className="text-emerald-700 text-3xl font-semibold">ฐานข้อมูลพันธุ์ไม้</h1>
         <p className="text-zinc-500">
@@ -148,15 +133,16 @@ export default function Home() {
       {/* แสดงรายการไม้ */}
       <div className="mt-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {woodsData.map((wood) => (
+          {woodDetail.map((wood) => (
             <WoodCard
               key={wood.id}
               id={wood.id}
-              name={wood.name}
+              name={wood.name ?? ""}
               scientificName={wood.scientificName}
-              imageUrl={wood.imageUrl}
+              imageUrl={wood.imageUrl?.[0] ?? ""}
+              woodtype={wood.woodtype}
             />
-          ))}        
+          ))}
         </div>
       </div>
     </main>

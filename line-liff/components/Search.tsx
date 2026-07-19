@@ -18,7 +18,7 @@ export default function Search() {
             <input
                 type="text"
                 placeholder="ค้นหาชื่อพันธุ์ไม้ (ชื่อสามัญ / วิทยาศาสตร์)"
-                className="w-full h-11 border border-gray-300 rounded-lg pl-11 pr-4 focus:outline-none focus:ring-2 focus:ring-emerald-700"
+                className="w-full h-11 border border-gray-300 rounded-lg ml-1 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-emerald-700"
             />
         </div>
     )
