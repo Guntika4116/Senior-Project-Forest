@@ -1,6 +1,5 @@
 # Finally :rainbow: :sunny: :sunflower:
 
-## สิ่งที่ต้องติดตั้ง
 ขั้นตอนติดตั้ง:
 
 ```bash
