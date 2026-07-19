@@ -1,4 +1,4 @@
-### Finally :rainbow: :white_sun_rain_cloud: :sunflower:
+# Finally :rainbow: :sunny: :sunflower:
 
 ## สิ่งที่ต้องติดตั้ง
 ขั้นตอนติดตั้ง:
