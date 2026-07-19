@@ -6,7 +6,6 @@ import Filter from "@/components/Filter";
 import Search from "@/components/Search";
 import WoodCard from "@/components/wood/WoodCard";
 import woodFilterData from "@/data/filterWoods.json";
-import { getWoods, type Wood } from "@/lib/woods";
 import woodDetail from "@/data/woodDetail.json";
 
 // ตั้งค่าเริ่มต้นตัวกรองให้เป็น all
@@ -137,8 +136,8 @@ export default function Home() {
             <WoodCard
               key={wood.id}
               id={wood.id}
-              name={wood.name ?? ""}
-              scientificName={wood.scientificName}
+              name={wood.commonname ?? ""}
+              scientificName={wood.scientificname}
               imageUrl={wood.imageUrl?.[0] ?? ""}
               woodtype={wood.woodtype}
             />

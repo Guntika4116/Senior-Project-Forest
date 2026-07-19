@@ -9,7 +9,7 @@ type WoodDetail = {
   id: string;
   commonname: string;
   distribution: string;
-  scientificName: string;
+  scientificname: string;
   imageUrl: string[];
 
   general: {
@@ -42,7 +42,7 @@ export default async function page() {
         <div className="text-center">
           <h1 className="text-emerald-700 text-3xl font-semibold">{wood.commonname}</h1>
           <p className="text-zinc-500 italic text-sm mb-1">
-            {wood.scientificName}
+            {wood.scientificname}
           </p>
         </div>
 
