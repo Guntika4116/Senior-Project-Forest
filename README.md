@@ -1,66 +1,130 @@
-# การพัฒนาแอปพลิเคชันสำหรับการทดสอบและสืบค้นความรู้บนแพลตฟอร์มไลน์
-## (ระบบสอบวัดความรู้พรรณไม้ผ่าน Line OA)
+## 1. สิ่งที่ต้องติดตั้งก่อนเริ่มงาน
+ขั้นตอนติดตั้ง:
 
-โครงการพัฒนาส่วนต่อขยาย (Extension) จากระบบเดิมเพื่อเพิ่มประสิทธิภาพการใช้งานบนอุปกรณ์พกพา (Mobile-first) สำหรับเจ้าหน้าที่กรมป่าไม้และผู้เข้าอบรม เพื่อใช้ในการทดสอบความรู้และสืบค้นข้อมูลพรรณไม้ได้อย่างสะดวกและรวดเร็ว
+```bash
+# ติดตั้ง
+npm install
 
+# รันเซิร์ฟเวอร์
+npm run dev
+```
 
-### 1. วัตถุประสงค์และเป้าหมายหลัก
-* **ต่อยอดระบบเดิม:** นำโครงสร้างการทำงานของระบบเดิมมาพัฒนาต่อยอดบนแพลตฟอร์ม Line เพื่อความสะดวกในการใช้งาน
-* **ระบบทดสอบที่มีประสิทธิภาพ:** พัฒนาบน Line Application สำหรับการสอบพิสูจน์ไม้ รองรับทั้งการทำข้อสอบบนหน้าจอ (UI) และการส่งภาพถ่ายกระดาษคำตอบ
-* **ระบบสืบค้นข้อมูลพรรณไม้:** เพิ่มช่องทางการค้นหาข้อมูลพรรณไม้ที่ออกแบบมาสำหรับการใช้งานบนมือถือโดยเฉพาะ
-
-### 2. ฟังก์ชันการทำงานที่สำคัญ (Features)
-* **การเข้าใช้งานและลงทะเบียน:** ผู้ใช้เพิ่มเพื่อนกับ Line Official Account (Line OA) และลงทะเบียนด้วยข้อมูลที่จำเป็นเท่านั้น คือ **ชื่อ และ อีเมล**
-* **การเข้าสู่บทเรียน/คอร์สเรียน:** เข้าถึงเนื้อหาและข้อสอบได้โดยใช้รหัส (เช่น `NOW` หรือรหัสวิชา) ที่ได้รับจากทางกรมป่าไม้
-* **ระบบการทดสอบ (Gimmick หลัก):**
-  * รองรับการทำข้อสอบแบบดิจิทัลผ่านแอปพลิเคชัน หรือ **ถ่ายรูปกระดาษคำตอบ (Bubble Sheet)** ส่งเข้ามาในระบบ
-  * รองรับข้อสอบแบบ **ปรนัย (Multiple Choice)** และอยู่ในช่วงศึกษาความเป็นไปได้สำหรับข้อสอบแบบ **อัตนัย (เขียนตอบ)**
-  * มีการแสดงเวลาถอยหลัง (Countdown Timer) ขณะทำข้อสอบ
-  * แจ้งผลคะแนนทันทีหลังส่งข้อสอบ โดย **ไม่แสดงเฉลย** เพื่อป้องกันการทุจริตและการส่งต่อคำตอบ
-* **ระบบสืบค้นข้อมูลพรรณไม้:** ระบบตัวกรอง (Filter) ข้อมูลที่สามารถยืด-หดได้ (Collapsible UI) เพื่อประหยัดพื้นที่หน้าจอมือถือ และดึงข้อมูลพรรณไม้เชื่อมโยงจากระบบหลัก
-
-### 3. การออกแบบและประสบการณ์ผู้ใช้ (UI/UX)
-* **Accessibility:** ปรับขนาดตัวอักษร ไอคอน และองค์ประกอบต่าง ๆ ให้มีขนาดใหญ่ ชัดเจน เหมาะสำหรับกลุ่มผู้ใช้งานหลักที่มีอายุตั้งแต่ 40-50 ปีขึ้นไป
-* **Navigation:** มีปุ่มย้อนกลับ (Back Button) ในทุกหน้าจอ เพื่อลดความสับสนในการใช้งาน
-* **Dynamic Rich Menu:** เมนูหลักด้านล่างของ Line จะเปลี่ยนไปตามสถานะหรือบริบทของผู้ใช้ (เช่น เมื่อเข้าสู่คอร์สเรียน เมนูจะเปลี่ยนเป็นปุ่มที่เกี่ยวข้องกับบทเรียนนั้น ๆ)
-* **Official Tone:** ใช้โทนสีและตราสัญลักษณ์ (Logo) ที่มีความเป็นทางการ น่าเชื่อถือ เหมาะกับหน่วยงานราชการ
-
-### 4. รายละเอียดทางเทคนิคและระบบหลังบ้าน (Technical Architecture)
-* **Data Integration:** ดึงข้อมูลจากฐานข้อมูลเดิม (Database) ผ่านการเรียกใช้งาน **API / Web Service** โดยไม่มีการลิงก์ไปหน้าเว็บภายนอก เพื่อให้การทำงานไหลลื่น
-* **Image Processing (ตรวจข้อสอบ):** ใช้เทคโนโลยี **OMR Checker ร่วมกับ Python** ในการประมวลผลและตรวจจุดดำบนกระดาษคำตอบจากรูปภาพที่ผู้ใช้ส่งมา
-* **Performance:** ระบบออกแบบมาให้รองรับการใช้งานพร้อมกัน (**Concurrency**) ได้อย่างน้อย **60 คน** ในช่วงเวลาที่มีการจัดสอบ
-* **Authentication:** ระบบ Login และการเชื่อมโยงบัญชีผู้ใช้ระหว่าง Line และระบบเดิม พัฒนาโดยใช้ **Line LIFF (Line Front-end Framework)**
+เปิด `http://localhost:3000`
 
 ---
 
+## 2. โครงสร้างที่มี "ข้อมูล"
 
+```
+src/
+├─ app/
+│  ├─ woods/page.tsx                # หน้ารายการไม้ทั้งหมด
+│  └─ woods/[id]/page.tsx     # หน้ารายละเอียดไม้ 1 ชนิด
+├─ components/
+│  ├─ BackNav.tsx
+│  ├─ ImageDetail.tsx         # แสดงรูปแบบเลื่อน (carousel)
+│  ├─ Filter.tsx              # ฟอร์มตัวกรอง
+│  ├─ Search.tsx              # ค้นหาพันธุ์ไม้
+│  └─ wood/
+│     ├─ WoodCard.tsx         # การ์ดแสดงไม้แต่ละชนิดในหน้ารวม
+│     └─ DetailAccordion.tsx  # กล่องพับ/กางแสดงรายละเอียดแต่ละหมวด 
+├─ data/
+│  ├─ woodDetail.json         # ★ ข้อมูลหลักของไม้แต่ละชนิด (ไฟล์ที่ต้องเพิ่ม/แก้บ่อยที่สุด)
+│  └─ filterWoods.json        # ★ ตัวเลือกของฟิลเตอร์ ใช้กับ filter
+└─ lib/
+   └─ woods.ts                # ฟังก์ชันเรียก API ภายนอก (getWoods, getWoodById)
+```
 
-### 1. Objectives & Goals
-* **System Extension:** Study the existing core system and extend its functionalities onto the Line Platform for enhanced mobile accessibility.
-* **Examination System:** Develop a Line Application for wood plant identification testing that supports both an in-app User Interface (UI) and image submissions of physical answer sheets.
-* **Mobile Knowledge Base:** Implement a user-friendly, mobile-optimized plant database search system.
-
-### 2. Key Features
-* **User Onboarding:** Users add the Line Official Account (Line OA) and register using minimum required information: **Name and Email**.
-* **Course Enrollment:** Access to specific lessons and examinations requires an authorization code (e.g., `NOW` or a specific course code) provided by the Royal Forest Department.
-* **Examination System (Core Gimmick):**
-  * Supports taking exams directly in the app or **submitting a photo of the physical answer sheet (Bubble Sheet)**.
-  * Supports **Multiple Choice** questions, with ongoing feasibility studies for **Subjective/Written** questions.
-  * Displays a real-time countdown timer during the exam.
-  * Provides instant score feedback upon submission **without displaying the answer key** to prevent answer sharing.
-* **Plant Database Search:** Features a collapsible filter system designed to save mobile screen real estate, directly linked to the main system's database.
-
-### 3. UI/UX Design
-* **Accessibility:** Larger font sizes, buttons, and visual elements tailored specifically for users aged 40-50+ years.
-* **Navigation:** A dedicated 'Back Button' included across all screens to ensure intuitive and confusion-free navigation.
-* **Dynamic Rich Menu:** The bottom persistent menu changes dynamically based on the user's current status (e.g., switching to lesson-specific shortcuts when inside a course).
-* **Official Branding:** Uses an official and professional color palette and logo appropriate for a government agency.
-
-### 4. Technical Details & Backend Architecture
-* **Data Connection:** Seamless data retrieval from the legacy system via **APIs / Web Services** instead of redirecting users to external web pages.
-* **Grading Technology:** Integrates an **OMR Checker using Python** to process and score black bubbles on physical answer sheet photos submitted by users.
-* **Performance:** Optimized to support a minimum **concurrency of 60 users** simultaneously during examination peak periods.
-* **Authentication:** Utilizes **LINE LIFF (LINE Front-end Framework)** to implement the login system and securely synchronize user profiles between LINE and the legacy database.
+**ส่วนใหญ่จะแก้ที่ `src/data/woodDetail.json` และ `src/data/filterWoods.json` เป็นหลัก**
 
 ---
-*Developed for the Royal Forest Department Project.*
+
+## 4. โครงสร้างข้อมูล `woodDetail.json`
+
+```json
+{
+  id: string;                 // ใช้เป็น key และอ้างอิงหน้า detail — ควรไม่ซ้ำกัน (ปัจจุบันใช้ชื่อไม้เป็น id)
+  name: string;                // ชื่อสามัญ
+  scientificName: string;      // ชื่อวิทยาศาสตร์
+  distribution: string;        // ถิ่นกำเนิด
+  woodtype: string;            // ประเภทเนื้อไม้ เช่น "เนื้อแข็ง"
+  imageUrl: string[];          // array ของ URL รูปภาพ (แสดงเป็น carousel)
+
+  general: {
+    items: { label: string; value: string }[];        // ข้อมูลพื้นฐาน (ชื่อ/วิทยาศาสตร์/ถิ่นกำเนิด/วงเจริญเติบโต)
+    description: { label: string; value: string }[];  // คำอธิบายทั่วไป (หน้า detail ใช้ index [1] — ดูหมายเหตุด้านล่าง)
+  };
+
+  physical: { label: string; value: string }[];   // สี/เนื้อไม้/เสี้ยน/ความมันวาว/น้ำหนัก/รส/กลิ่น
+  pore: { label: string; value: string }[];        // โครงสร้างพอร์/vessel
+  rp: {
+    ray: { label: string; value: string }[];
+    parenchyma: { label: string; value: string }[];
+  };
+  other: { label: string; value: string }[];       // องค์ประกอบอื่นๆ
+}
+```
+
+### ⚠️ จุดที่ต้องระวังเวลาเพิ่มข้อมูล
+
+1. **`imageUrl`** — URL ตัวอย่างที่มีอยู่ตอนนี้เป็นลิงก์ thumbnail ชั่วคราวจาก Google (`encrypted-tbn0.gstatic.com`)
+2. **`general.description`** — โค้ดหน้า detail อ่านค่าแบบ `wood.general.description[1]?.value` ยังเป็น hardcode ฝากเปลี่ยนด้วยฮะ
+3. **หน้า detail (`app/woods/[id]/page.tsx`) ตอนนี้ hardcode `const wood = woods[1]`** คือดึงข้อมูลไม้ตัวที่สอง (ยางพารา) ตายตัว ไม่ได้ดึงตาม `id`
+4. **`WoodCard.tsx` ลิงก์ไปที่ `/woods/id`** ยังไม่ได้ใส่ `id` ของไม้แต่ละตัวจริงๆ ต้องแก้เป็น `` `/woods/${id}` `` เพื่อให้กดเข้าไปหน้ารายละเอียดของไม้แต่ละชนิดได้ถูก
+
+---
+
+## 5. โครงสร้างข้อมูล `filterWoods.json`
+
+```json
+{
+  key: string;      // ใช้เป็น key อ้างอิง
+  label: string;    // ข้อความหัวข้อที่แสดงบนหน้าจอ
+  options: {
+    label: string;  // ข้อความที่แสดงให้ผู้ใช้เห็น
+    value: string;  // ค่าที่จะถูกส่งไปเป็น query param
+  }[];
+}[]
+```
+
+**ข้อควรระวัง:** `key` และ `value` ในไฟล์นี้ (เช่น `distribution: "north" `) เป็นคนละชุดกับค่าที่อยู่จริงใน `woodDetail.json` (เช่น `distribution: "Neotropics and temperate Brazil"`) ตอนนี้ยังไม่มีการ mapping ที่ตรงกัน
+
+---
+
+## 6. ประเภทข้อมูล
+
+```ts
+type Wood = {
+  id: string;
+  commonname: string;
+  scientificname: string;
+  distribution: string;
+  imageUrl: { url: string }[];
+  wood_taste: string | null;
+  wood_odor: string | null;
+  wood_texture: string | null;
+  wood_weight: string | null;
+  growth_rings: string | null;
+};
+```
+
+**field ยังใส่ไม่ครบ `woodDetail.json`**
+
+---
+
+## 7. สรุป
+
+- เพิ่ม object ไม้ชนิดใหม่ใน `src/data/woodDetail.json` ตาม schema ในหัวข้อ 4
+- เพิ่ม/แก้ตัวเลือกตัวกรองใน `src/data/filterWoods.json`
+- เปลี่ยน/เพิ่มรูปภาพผ่าน `imageUrl` (แนะนำให้ใช้ URL ที่โฮสต์ถาวร)
+
+## 8. สิ่งที่ต้องแก้
+
+- ทำให้หน้า detail ดึงข้อมูลตาม `id` จริงจาก URL แทนการ hardcode `woods[1]`
+- แก้ลิงก์ใน `WoodCard.tsx` ให้ไปยัง `id` ของไม้แต่ละชนิดจริง
+- เชื่อมให้หน้าค้นหาพันธุ์ไม้ ใช้ผลลัพธ์จาก `getWoods()` แทนการใช้ `woodDetail.json` ตรงๆ
+
+---
+
+> หมายเหตุ: ตอนนี้หน้า Home (`page.tsx`) แสดงรายการไม้จาก `woodDetail.json` โดยตรง (`woodDetail.map(...)`)
+> ปล.ลี่ยังไม่ได้เข้าไปดูตารางข้อมูลของพี่อาย เลยทำแบบนี้ไว้ แต่ถ้าข้อมูลไม่เหมือนกันก็มีอีกโฟลเดอร์ที่ลี่ทำไว้ นข. อาจจะแก้จากโฟลเดอร์นั้นเลยก็ ละเดี๋ยวลี่เอามาแก้ต่อ หรือบอกลี่ก็ได้เดะมาแก้ให้ T-T
