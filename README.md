@@ -1,4 +1,4 @@
-# Finally :rainbow: :sunny: :sunflower:
+# Finally หน้า Search :rainbow: :sunny: :sunflower:
 
 ขั้นตอนติดตั้ง:
 
