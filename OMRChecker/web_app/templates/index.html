@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบตรวจกระดาษคำตอบกรมป่าไม้ออนไลน์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800">
+
+    <div class="max-w-2xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-xl shadow-md p-6 text-center border border-gray-200">
+            <h1 class="text-2xl font-bold text-green-600 mb-2">ตรวจกระดาษคำตอบ</h1>
+            <p class="text-gray-500 mb-6 text-sm">ถ่ายรูปกระดาษคำตอบให้ตรงมุม และเห็นจุดสี่เหลี่ยมครบ 4 มุม</p>
+
+            <div class="mb-6">
+                <label class="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg cursor-pointer transition shadow-sm">
+                    ส่งกระดาษคำตอบ
+                    <input type="file" accept="image/*" capture="environment" id="cameraInput" class="hidden" onchange="uploadImage()">
+                </label>
+            </div>
+
+            <div id="loading" class="hidden my-6 p-4 bg-green-50 rounded-lg text-green-600 font-medium animate-pulse">
+                ⏳ กำลังส่งภาพไปประมวลผล กรุณารอเพียงอึดใจเดียว...
+            </div>
+
+            <div id="resultBox" class="hidden border-t pt-4 mt-4"></div>
+        </div>
+    </div>
+
+    <script>
+        async function uploadImage() {
+            const fileInput = document.getElementById('cameraInput');
+            const loading = document.getElementById('loading');
+            const resultBox = document.getElementById('resultBox');
+            
+            if (fileInput.files.length === 0) return;
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("file", file);
+
+            // แสดง Loading และซ่อนผลลัพธ์เก่า
+            loading.classList.remove('hidden');
+            resultBox.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/scan/', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                loading.classList.add('hidden');
+
+                if (data.status === 'success' && data.results.length > 0) {
+                    resultBox.classList.remove('hidden');
+                    displayResults(data.results[0]);
+                } else {
+                    alert("เกิดข้อผิดพลาด: " + (data.message || "ไม่สามารถอ่านค่าได้"));
+                    if(data.log) console.error(data.log);
+                }
+            } catch (error) {
+                loading.classList.add('hidden');
+                alert("ไม่สามารถเชื่อมต่อ Server ได้ (เช็คที่หน้า Terminal ว่า Server ยังรันอยู่หรือไม่)");
+                console.error(error);
+            }
+        }
+
+        function displayResults(studentData) {
+            // 1. ดึงคะแนนที่ได้ออกมา
+            let score = studentData.Score !== undefined ? studentData.Score : 
+                        (studentData.score !== undefined ? studentData.score : 
+                        (studentData["คะแนน"] !== undefined ? studentData["คะแนน"] : 0));
+            
+            if (!isNaN(score) && Number.isInteger(Number(score))) {
+                score = Number(score);
+            }
+
+            // 2. ตั้งค่าจำนวนข้อสอบทั้งหมด (อยากได้กี่ข้อแก้ตรงนี้)
+            const TOTAL_QUESTIONS = 15; 
+
+            // นับจำนวนข้อที่ฝนจริง
+            let answeredCount = 0;
+
+            Object.keys(studentData).forEach(key => {
+                // เช็กเฉพาะคอลัมน์ที่เป็นข้อสอบ ex.q1, q2, Q10...
+                if (/^q\d+/i.test(key)) {
+                    const answer = studentData[key];
+                    // นับเฉพาะข้อที่มีค่า ไม่เป็นช่องว่าง และไม่ใช่ตัวชี้วัดว่าไม่ได้ฝน
+                    if (answer !== null && answer !== undefined && answer !== "" && String(answer).trim() !== "-" && String(answer).trim() !== "") {
+                        answeredCount++;
+                    }
+                }
+            });
+            // กำหนดคะแนนเต็มจากตัวแปร TOTAL_QUESTIONS ที่เราตั้งไว้ด้านบนได้ทันที
+            const maxScore = TOTAL_QUESTIONS;
+
+            // 3. ดึงรหัสผู้เข้าสอบ
+            const roll = studentData.Roll || studentData.roll || studentData["รหัส"] || "-";
+
+            // 4. แสดงผลบนการ์ดคะแนน
+            const resultBox = document.getElementById('resultBox');
+            resultBox.innerHTML = `
+                <div class="text-center py-2 animate-fade-in">
+                    <h2 class="text-lg font-bold text-gray-700 mb-4">🎉 ผลการตรวจข้อสอบ</h2>
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg mx-auto max-w-sm">
+                        <p class="text-sm font-medium opacity-90 mb-1">รหัสผู้เข้าสอบ: <span class="font-bold underline">${roll}</span></p>
+                        <div class="text-6xl font-extrabold tracking-tight my-4">
+                            ${score} <span class="text-3xl font-normal opacity-80">/ ${maxScore}</span>
+                        </div>
+                        <p class="text-xs opacity-75 mt-2">คะแนนที่ได้ / คะแนนเต็ม</p>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
