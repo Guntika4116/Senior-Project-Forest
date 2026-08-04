@@ -1,0 +1,46 @@
+[
+  {
+    "key": "distribution",
+    "label": "ถิ่นกำเนิด (Distribution)",
+    "options": [
+      { "label": "ภาคเหนือ", "value": "north" },
+      { "label": "ภาคกลาง", "value": "central" },
+      { "label": "ภาคใต้", "value": "south" }
+    ]
+  },
+  {
+    "key": "heartwood",
+    "label": "สีของแก่นไม้ (Heartwood)",
+    "options": [
+      { "label": "น้ำตาลเข้ม", "value": "dark_brown" },
+      { "label": "น้ำตาลอ่อน", "value": "light_brown" },
+      { "label": "แดง", "value": "red" }
+    ]
+  },
+  {
+    "key": "weight",
+    "label": "น้ำหนัก (Weight)",
+    "options": [
+      { "label": "เบา", "value": "light" },
+      { "label": "ปานกลาง", "value": "medium" },
+      { "label": "หนัก", "value": "heavy" }
+    ]
+  },
+  {
+    "key": "odor",
+    "label": "กลิ่น (Odor)",
+    "options": [
+      { "label": "ไม่มีกลิ่น", "value": "none" },
+      { "label": "มีกลิ่นหอม", "value": "aromatic" },
+      { "label": "มีกลิ่นฉุน", "value": "pungent" }
+    ]
+  },
+  {
+    "key": "growth_rings",
+    "label": "วงเจริญเติบโต (Growth rings)",
+    "options": [
+      { "label": "เห็นชัดเจน", "value": "clear" },
+      { "label": "เห็นไม่ชัด", "value": "unclear" }
+    ]
+  }
+]

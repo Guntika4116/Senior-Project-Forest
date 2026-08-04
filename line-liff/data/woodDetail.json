@@ -1,0 +1,294 @@
+[
+  {
+    "id": "พะยูง",
+    "commonname": "พะยูง",
+    "distribution": "Neotropics and temperate Brazil",
+    "scientificname": "Dalbergia cochinchinensis Pierre",
+    "imageUrl": [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10"
+    ],
+    "woodtype": "เนื้อแข็ง",
+    "general": {
+      "items": [
+        {
+          "label": "ชื่อสามัญ",
+          "value": "พะยูง"
+        },
+        {
+          "label": "ชื่อวิทยาศาสตร์",
+          "value": "Dalbergia cochinchinensis Pierre"
+        },
+        {
+          "label": "ถิ่นกำเนิดไม้ (Geographic distribution)",
+          "value": "Neotropics and temperate Brazil"
+        },
+        {
+          "label": "วงเจริญเติบโต (Growth rings)",
+          "value": "ไม่มีหรือเห็นไม่ชัดเจน"
+        }
+      ],
+      "description": [
+        {
+          "label": "รายละเอียดทั่วไป (Description)",
+          "value": "ไม้เศรษฐกิจสำคัญของไทย ใช้ผลิตน้ำยางธรรมชาติและไม้แปรรูปหลังหมดอายุการกรีด"
+        }
+      ]
+    },
+    "physical": [
+      {
+        "label": "สีของแก่นไม้ (Heartwood color)",
+        "value": "สีเหลืองหรือโทนสีเหลือง (Yellow or shades of yellow)"
+      },
+      {
+        "label": "ความแตกต่างของสีกระพี้และสีแก่นไม้",
+        "value": "สีกระพี้เหมือนหรือใกล้เคียงกับสีแก่นไม้"
+      },
+      {
+        "label": "ความหยาบละเอียดของเนื้อไม้ (Texture)",
+        "value": "เนื้อไม้หยาบปานกลาง (Medium texture)"
+      },
+      {
+        "label": "เสี้ยนเนื้อไม้ (Grain)",
+        "value": "เสี้ยนตรง (Straight grain)"
+      },
+      {
+        "label": "ความมันวาว (Luster)",
+        "value": "ด้าน (Dull)"
+      },
+      {
+        "label": "น้ำหนัก (Weight)",
+        "value": "กลาง (น้ำหนัก 0.40 - 0.75)"
+      },
+      {
+        "label": "รส (Taste)",
+        "value": "ไม่มีรส"
+      },
+      {
+        "label": "กลิ่น (Odor)",
+        "value": "ไม่มีกลิ่น"
+      }
+    ],
+    "pore": [
+      {
+        "label": "การกระจายของพอร์ (Porosity)",
+        "value": "ไม้พอร์กระจาย (Diffuse-porous wood)"
+      },
+      {
+        "label": "กลุ่มของพอร์ (Vessel grouping)",
+        "value": "พอร์เดี่ยว"
+      },
+      {
+        "label": "การเรียงตัวของพอร์ (Vessel arrangement)",
+        "value": "-"
+      },
+      {
+        "label": "จำนวนของพอร์ (Pores frequency)",
+        "value": "หนาแน่นน้อยมาก ( ≤ 5 vessels per squaremillimeter )"
+      },
+      {
+        "label": "ขนาดความโตของพอร์ (Pores size)",
+        "value": "พอร์ขนาดกลาง ขนาดที่พอเห็นได้"
+      },
+      {
+        "label": "สิ่งที่อยู่ในพอร์ (Inclusions in pores)",
+        "value": "ไทโลส ( Tyloses )"
+      },
+      {
+        "label": "สัดส่วนเรย์กับพอร์",
+        "value": "เรย์มีขนาดเล็กกว่าขนาดความกว้างของพอร์"
+      }
+    ],
+    "rp": {
+      "ray": [
+        {
+          "label": "จำนวนของเส้นเรย์ (Rays per mm)",
+          "value": "ปานกลาง (4 - 12 เส้น/มม.)"
+        },
+        {
+          "label": "ขนาดความกว้างของเส้นเรย์",
+          "value": "เล็ก คือ ขนาดที่เห็นได้ด้วยแว่นขยาย"
+        },
+        {
+          "label": "เรย์มีสองขนาด / ลักษณะเรย์รวม / เป็นชั้นๆ",
+          "value": "ไม่มี"
+        }
+      ],
+      "parenchyma": [
+        {
+          "label": "ประเภทของพาเรงคิมา",
+          "value": "พาเรงคิมาที่ติดต่อพอร์ ( Paratracheal axial parenchyma )"
+        },
+        {
+          "label": "พาเรงคิมาที่ติดต่อพอร์ (Paratracheal)",
+          "value": "พาเรงคิมาแบบรอบพอร์ (Axial parenchyma vasicentric)"
+        },
+        {
+          "label": "พาเรงคิมาแบบไม่ติดต่อพอร์ (Apotracheal)",
+          "value": "พาเรงคิมาแบบกระจาย (diffuse parenchyma)"
+        },
+        {
+          "label": "พาเรงคิมาแบบแถบ (Banded)",
+          "value": "พาเรงคิมาแบบตาข่าย (Axial parenchyma reticulate)"
+        }
+      ]
+    },
+    "other": [
+      {
+        "label": "โฟลเอ็มในเนื้อไม้ (Included phloem)",
+        "value": "ไม่มี"
+      },
+      {
+        "label": "ท่อระหว่างเซลล์ (Intercellular canals)",
+        "value": "-"
+      }
+    ]
+  },
+  {
+    "id": "ยางพารา",
+    "commonname": "ยางพารา",
+    "distribution": "Neotropics and temperate Brazil",
+    "scientificname": "Hevea brasiliensis Müll.Arg.",
+    "imageUrl": [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtKTvfsKOMOAlifUI2snrZ_5rx_bmC4iT17d8OI7SCOLea0AOv44lH8M4&s=10"
+    ],
+    "woodtype": "เนื้อแข็งปานกลาง",
+    "general": {
+      "items": [
+        {
+          "label": "ชื่อสามัญ",
+          "value": "ยางพารา"
+        },
+        {
+          "label": "ชื่อวิทยาศาสตร์",
+          "value": "Hevea brasiliensis Müll.Arg."
+        },
+        {
+          "label": "ถิ่นกำเนิดไม้ (Geographic distribution)",
+          "value": "Neotropics and temperate Brazil"
+        },
+        {
+          "label": "วงเจริญเติบโต (Growth rings)",
+          "value": "ไม่มีหรือเห็นไม่ชัดเจน"
+        }
+      ],
+      "description": [
+        {
+          "label": "รายละเอียดทั่วไป (Description)",
+          "value": "ไม้เศรษฐกิจสำคัญของไทย ใช้ผลิตน้ำยางธรรมชาติและไม้แปรรูปหลังหมดอายุการกรีด"
+        }
+      ]
+    },
+    "physical": [
+      {
+        "label": "สีของแก่นไม้ (Heartwood color)",
+        "value": "สีเหลืองหรือโทนสีเหลือง (Yellow or shades of yellow)"
+      },
+      {
+        "label": "ความแตกต่างของสีกระพี้และสีแก่นไม้",
+        "value": "สีกระพี้เหมือนหรือใกล้เคียงกับสีแก่นไม้"
+      },
+      {
+        "label": "ความหยาบละเอียดของเนื้อไม้ (Texture)",
+        "value": "เนื้อไม้หยาบปานกลาง (Medium texture)"
+      },
+      {
+        "label": "เสี้ยนเนื้อไม้ (Grain)",
+        "value": "เสี้ยนตรง (Straight grain)"
+      },
+      {
+        "label": "ความมันวาว (Luster)",
+        "value": "ด้าน (Dull)"
+      },
+      {
+        "label": "น้ำหนัก (Weight)",
+        "value": "กลาง (น้ำหนัก 0.40 - 0.75)"
+      },
+      {
+        "label": "รส (Taste)",
+        "value": "ไม่มีรส"
+      },
+      {
+        "label": "กลิ่น (Odor)",
+        "value": "ไม่มีกลิ่น"
+      }
+    ],
+    "pore": [
+      {
+        "label": "การกระจายของพอร์ (Porosity)",
+        "value": "ไม้พอร์กระจาย (Diffuse-porous wood)"
+      },
+      {
+        "label": "กลุ่มของพอร์ (Vessel grouping)",
+        "value": "พอร์เดี่ยว"
+      },
+      {
+        "label": "การเรียงตัวของพอร์ (Vessel arrangement)",
+        "value": "-"
+      },
+      {
+        "label": "จำนวนของพอร์ (Pores frequency)",
+        "value": "หนาแน่นน้อยมาก ( ≤ 5 vessels per squaremillimeter )"
+      },
+      {
+        "label": "ขนาดความโตของพอร์ (Pores size)",
+        "value": "พอร์ขนาดกลาง ขนาดที่พอเห็นได้"
+      },
+      {
+        "label": "สิ่งที่อยู่ในพอร์ (Inclusions in pores)",
+        "value": "ไทโลส ( Tyloses )"
+      },
+      {
+        "label": "สัดส่วนเรย์กับพอร์",
+        "value": "เรย์มีขนาดเล็กกว่าขนาดความกว้างของพอร์"
+      }
+    ],
+    "rp": {
+      "ray": [
+        {
+          "label": "จำนวนของเส้นเรย์ (Rays per mm)",
+          "value": "ปานกลาง (4 - 12 เส้น/มม.)"
+        },
+        {
+          "label": "ขนาดความกว้างของเส้นเรย์",
+          "value": "เล็ก คือ ขนาดที่เห็นได้ด้วยแว่นขยาย"
+        },
+        {
+          "label": "เรย์มีสองขนาด / ลักษณะเรย์รวม / เป็นชั้นๆ",
+          "value": "ไม่มี"
+        }
+      ],
+      "parenchyma": [
+        {
+          "label": "ประเภทของพาเรงคิมา",
+          "value": "พาเรงคิมาที่ติดต่อพอร์ ( Paratracheal axial parenchyma )"
+        },
+        {
+          "label": "พาเรงคิมาที่ติดต่อพอร์ (Paratracheal)",
+          "value": "พาเรงคิมาแบบรอบพอร์ (Axial parenchyma vasicentric)"
+        },
+        {
+          "label": "พาเรงคิมาแบบไม่ติดต่อพอร์ (Apotracheal)",
+          "value": "พาเรงคิมาแบบกระจาย (diffuse parenchyma)"
+        },
+        {
+          "label": "พาเรงคิมาแบบแถบ (Banded)",
+          "value": "พาเรงคิมาแบบตาข่าย (Axial parenchyma reticulate)"
+        }
+      ]
+    },
+    "other": [
+      {
+        "label": "โฟลเอ็มในเนื้อไม้ (Included phloem)",
+        "value": "ไม่มี"
+      },
+      {
+        "label": "ท่อระหว่างเซลล์ (Intercellular canals)",
+        "value": "-"
+      }
+    ]
+  }
+]
