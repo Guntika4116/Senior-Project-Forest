@@ -1,0 +1,30 @@
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.idea/
+
+# JavaScript artifacts
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+*.log
+.vercel/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Independently maintained repository (see README)
+/OMRChecker/
