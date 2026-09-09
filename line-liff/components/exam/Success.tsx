@@ -15,7 +15,7 @@ export default function SuccessStep({ score }: { score: { got: number; total: nu
         </p>
       </div>
 
-      <Link href="/" className="bg-emerald-700 text-white px-6 py-2 rounded w-full max-w-sm">
+      <Link href="/photoexam" className="bg-emerald-700 text-white px-6 py-2 rounded w-full max-w-sm">
         กลับหน้าหลัก
       </Link>
     </div>
