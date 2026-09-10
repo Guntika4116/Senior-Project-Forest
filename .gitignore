@@ -25,6 +25,3 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
-
-# Independently maintained repository (see README)
-/OMRChecker/

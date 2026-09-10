@@ -6,6 +6,6 @@
 4. ตรวจ `git diff --check` และ `git diff --cached` ก่อน commit ให้แน่ใจว่าไม่มี credentials หรือไฟล์ส่วนตัว
 5. เปิด Pull Request อธิบายสิ่งที่เปลี่ยนและผลการตรวจสอบ
 
-งาน OMRChecker ให้ทำใน repository แยกตามลิงก์ใน README อย่าเพิ่ม nested repository ด้วย `git add -f`
+งาน OMRChecker ให้แก้ในโฟลเดอร์ `OMRChecker/` และตรวจสอบตามคำแนะนำใน `OMRChecker/README.md`
 
 เก็บคอมโพเนนต์สำรองใน `components/wood/experimental/` และย้ายเข้าโฟลเดอร์หลักเมื่อเริ่มใช้งานจริง

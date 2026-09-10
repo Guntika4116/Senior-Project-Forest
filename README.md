@@ -8,7 +8,7 @@
 .github/          แบบฟอร์ม Issue และ Pull Request
 docs/            เอกสารโครงการและคู่มือการทำงาน
 line-liff/       เว็บแอป Next.js สำหรับ LINE LIFF
-OMRChecker/      repository แยกสำหรับประมวลผลกระดาษคำตอบ (ติดตั้งเพิ่มเติม)
+OMRChecker/      ระบบประมวลผลและตรวจคำตอบจากกระดาษคำตอบ
 ```
 
 - [ขอบเขตและเป้าหมายโครงการ](docs/project-overview.md) — ฟีเจอร์ที่วางแผนไว้ ไม่ใช่รายการที่พัฒนาเสร็จทั้งหมด
@@ -34,12 +34,11 @@ npm run dev
 
 ## OMRChecker
 
-ส่วนตรวจคำตอบอยู่ใน [Guntika4116/OMRChecker](https://github.com/Guntika4116/OMRChecker) และมี Git history ของตัวเอง ไม่รวมเป็น submodule ของ repository นี้
-
-หากยังไม่มีโฟลเดอร์นี้ ให้รันจาก root:
+ส่วนตรวจคำตอบอยู่ในโฟลเดอร์ `OMRChecker/` ของ repository นี้ ติดตั้ง dependencies โดยรันจาก root:
 
 ```bash
-git clone https://github.com/Guntika4116/OMRChecker.git OMRChecker
+cd OMRChecker
+pip install -r requirements.txt
 ```
 
-อ่านวิธีติดตั้งจาก `OMRChecker/README.md` และ commit/push งานส่วนนั้นใน repository ของ OMRChecker โดยตรง
+อ่านวิธีใช้งานเพิ่มเติมจาก `OMRChecker/README.md` และ commit งานส่วนนี้ลง branch ที่กำลังพัฒนาของ repository หลัก
