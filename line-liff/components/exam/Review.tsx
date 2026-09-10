@@ -17,7 +17,6 @@ export default function ReviewStep({
 
       <div className="relative w-full max-w-xs mt-4">
         <div className="w-full aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={photo.dataUrl}
             alt="กระดาษคำตอบที่ถ่าย"

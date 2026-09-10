@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 
-export default function back() {
+export default function back({ onBack }: { onBack?: () => void } = {}) {
   const router = useRouter();
   return (
 
@@ -13,7 +13,11 @@ export default function back() {
         href="#"
         onClick={(e) => {
           e.preventDefault();
-          router.back();
+          if (onBack) {
+            onBack();
+          } else {
+            router.back();
+          }
         }}
         className="flex gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="size-6 text-emerald-700">

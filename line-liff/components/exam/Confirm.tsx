@@ -3,11 +3,9 @@
 import { useState } from "react";
 
 export default function ConfirmStep({
-  photoCount,
   onEdit,
   onSubmit,
 }: {
-  photoCount: number;
   onEdit: () => void;
   onSubmit: (result: { got: number; total: number }) => void;
 }) {
@@ -26,7 +24,7 @@ export default function ConfirmStep({
         <p className="text-gray-500 mt-1">ตรวจสอบข้อมูลก่อนกดส่ง</p>
       </div>
 
-      <div className="rounded-lg border border-gray-200 p-4 flex flex-col gap-2">
+      <div className="bg-gray-50 rounded-lg p-4 flex flex-col gap-2">
         <h2 className="font-semibold text-emerald-700">
           สอบปฏิบัติการจำแนกชนิดไม้ด้วยแว่นขยาย
         </h2>
@@ -40,7 +38,7 @@ export default function ConfirmStep({
         <Row icon={<UserIcon />} label="ชื่อผู้สอบ" value="สมชาย ใจดี" />
         <Row icon={<ClockIcon />} label="เวลาในการทำ" value="1:00:20" />
         <Row icon={<CalendarIcon />} label="วันเวลาที่ส่ง" value="20/06 05:30 น." />
-        <Row icon={<PhotoIcon />} label="จำนวนภาพ" value={`${photoCount} ภาพ`} />
+        <Row icon={<PhotoIcon />} label="จำนวนภาพ" value="1 ภาพ" />
       </div>
 
       <div className="flex gap-3">
