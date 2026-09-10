@@ -7,7 +7,6 @@ import ReviewStep from "@/components/exam/Review";
 import ConfirmStep from "@/components/exam/Confirm";
 import SuccessStep from "@/components/exam/Success";
 
-// หน้าคำแนะนำ (Instruction) ย้ายไปอยู่ที่ /photoexam แล้ว
 // route นี้เริ่มต้นที่ขั้นตอนถ่ายภาพโดยตรง
 type Step = "camera" | "review" | "confirm" | "success";
 
@@ -35,11 +34,7 @@ export default function PhotoExamPage() {
   }
 
   function handleReviewNext() {
-    if (photos.length < MAX_PHOTOS) {
-      setStep("camera"); // ถ่ายรูปถัดไป
-    } else {
-      setStep("confirm"); // ครบ 4 รูปแล้ว ไปหน้ายืนยัน
-    }
+    setStep("confirm");
   }
 
   return (
