@@ -1,4 +1,4 @@
-export default function Instruction() {
+export default function Instruction({ onStart }: { onStart: () => void }) {
     return (
         <div>
             <div className="flex flex-col items-center justify-center gap-2 p-4">
@@ -39,7 +39,13 @@ export default function Instruction() {
 
                     </div>
 
-                    <a href="/photoexam/id" className="bg-emerald-700 text-white px-4 py-2 rounded-md text-center">เริ่มถ่ายภาพ</a>
+                    <button
+                        type="button"
+                        onClick={onStart}
+                        className="bg-emerald-700 text-white px-4 py-2 rounded-md text-center"
+                    >
+                        เริ่มถ่ายภาพ
+                    </button>
 
                 </div>
             </div>
