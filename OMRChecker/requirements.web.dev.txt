@@ -1,0 +1,3 @@
+-r requirements.web.txt
+-r requirements.dev.txt
+httpx>=0.27,<1

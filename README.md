@@ -34,11 +34,15 @@ npm run dev
 
 ## OMRChecker
 
+หน้า `/photoexam` ใน `line-liff` เชื่อม OMRChecker แล้ว: ถ่าย/เลือกภาพ → ตรวจสอบ → ส่งตรวจ → คะแนนและคำตอบที่อ่านได้จริง
+ดู [คู่มือเปิด frontend และ OMR API](docs/omr-integration.md) รวมถึงการเปิดกล้องผ่าน HTTPS บนโทรศัพท์
+
 ส่วนตรวจคำตอบอยู่ในโฟลเดอร์ `OMRChecker/` ของ repository นี้ ติดตั้ง dependencies โดยรันจาก root:
 
 ```bash
 cd OMRChecker
-pip install -r requirements.txt
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.web.txt
 ```
 
 อ่านวิธีใช้งานเพิ่มเติมจาก `OMRChecker/README.md` และ commit งานส่วนนี้ลง branch ที่กำลังพัฒนาของ repository หลัก

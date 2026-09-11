@@ -1,13 +1,11 @@
+import Image from "next/image";
+
 export default function ReviewStep({
   photo,
-  currentIndex,
-  maxPhotos,
   onRetake,
   onNext,
 }: {
   photo: { id: string; dataUrl: string };
-  currentIndex: number;
-  maxPhotos: number;
   onRetake: () => void;
   onNext: () => void;
 }) {
@@ -16,11 +14,14 @@ export default function ReviewStep({
       <h1 className="text-black text-2xl font-bold">ตรวจสอบภาพ</h1>
 
       <div className="relative w-full max-w-xs mt-4">
-        <div className="w-full aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden">
-          <img
+        <div className="relative w-full aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden">
+          <Image
             src={photo.dataUrl}
             alt="กระดาษคำตอบที่ถ่าย"
-            className="w-full h-full object-cover"
+            fill
+            unoptimized
+            sizes="320px"
+            className="object-contain"
           />
         </div>
       </div>

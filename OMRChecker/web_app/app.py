@@ -1,112 +1,108 @@
+import json
+import logging
 import os
-import shutil
 import subprocess
-import pandas as pd
-from fastapi import FastAPI, UploadFile, File, Request
+import sys
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from uuid import uuid4
+
+from fastapi import FastAPI, File, Request, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-BASE_DIR = os.path.dirname(CURRENT_DIR)
-
-# ตั้งค่าโฟลเดอร์สำหรับ inputs และ outputs
-INPUTS_DIR = os.path.join(BASE_DIR, "inputs", "my_test")
-OUTPUTS_DIR = os.path.join(BASE_DIR, "outputs", "my_test")
-UPLOADS_DIR = os.path.join(BASE_DIR, "web_uploads")
-TEMPLATES_DIR = os.path.join(CURRENT_DIR, "templates")
-
-os.makedirs(INPUTS_DIR, exist_ok=True)
-os.makedirs(UPLOADS_DIR, exist_ok=True)
-
+BASE_DIR = Path(__file__).resolve().parents[1]
+PROFILE_DIR = Path(os.environ.get("OMR_PROFILE_DIR", str(BASE_DIR / "web_app/profiles/default"))).resolve()
+MAX_UPLOAD_BYTES = 20 * 1024 * 1024
+SCAN_TIMEOUT_SECONDS = 60
+IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
+logger = logging.getLogger(__name__)
 app = FastAPI(title="OMR Web API")
-templates = Jinja2Templates(directory=TEMPLATES_DIR)
+templates = Jinja2Templates(directory=str(BASE_DIR / "web_app/templates"))
+
+
+def error_response(status_code, code, message):
+    return JSONResponse(status_code=status_code, content={
+        "status": "error", "code": code, "message": message,
+    })
+
+
+def run_job(work_dir, image_path=None):
+    result_path = work_dir / "result.json"
+    command = [sys.executable, "-m", "web_app.scan", "--profile", str(PROFILE_DIR),
+               "--output", str(result_path)]
+    if image_path:
+        command.extend(["--image", str(image_path)])
+    cache_dir = BASE_DIR / ".cache"
+    env = {**os.environ, "OMR_HEADLESS": "1", "MPLBACKEND": "Agg",
+           "MPLCONFIGDIR": str(cache_dir / "matplotlib"), "XDG_CACHE_HOME": str(cache_dir)}
+    try:
+        process = subprocess.run(command, cwd=BASE_DIR, env=env, capture_output=True,
+                                 text=True, timeout=SCAN_TIMEOUT_SECONDS)
+    except subprocess.TimeoutExpired:
+        return error_response(504, "SCAN_TIMEOUT", "ตรวจภาพใช้เวลานานเกินไป กรุณาลองส่งอีกครั้ง")
+    if process.returncode != 0 or not result_path.exists():
+        logger.error("OMR worker failed (%s): %s", process.returncode, process.stderr[-4000:])
+        return error_response(500, "PROCESSING_FAILED", "ระบบตรวจคำตอบขัดข้อง กรุณาลองใหม่หรือติดต่อผู้ดูแล")
+    try:
+        payload = json.loads(result_path.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        logger.exception("Cannot read OMR worker result")
+        return error_response(500, "INVALID_RESULT", "อ่านผลการตรวจไม่ได้ กรุณาลองใหม่")
+    if payload.get("status") != "success":
+        return JSONResponse(status_code=422, content=payload)
+    return payload
+
 
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+def home(request: Request):
+    # Retain the old upload page for diagnostics; /photoexam is the main UI.
+    return templates.TemplateResponse(request=request, name="index.html")
 
-# เปิดกล้อง
+
+@app.get("/api/health/")
+def health():
+    return {"status": "ok"}
+
+
+@app.get("/api/exam/")
+def exam():
+    with TemporaryDirectory(prefix="omr-exam-") as directory:
+        return run_job(Path(directory))
+
+
 @app.post("/api/scan/")
-async def scan_omr(file: UploadFile = File(...)):
+def scan_omr(file: UploadFile = File(...)):
+    # Sync endpoints use FastAPI's thread pool. Each job owns its subprocess
+    # and temporary files, including failures and simultaneous submissions.
     try:
-        print("\n" + "="*50)
-        print("📸 [1/3] ได้รับรูปภาพจากมือถือแล้ว กำลังบันทึก...")
-        
-        temp_file_path = os.path.join(UPLOADS_DIR, "captured_sheet.jpg")
-        with open(temp_file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+        if file.content_type not in IMAGE_TYPES:
+            return error_response(415, "UNSUPPORTED_IMAGE", "กรุณาใช้รูป JPEG, PNG หรือ WebP")
+        with TemporaryDirectory(prefix="omr-scan-") as directory:
+            work_dir = Path(directory)
+            image_path = work_dir / "sheet.jpg"
+            size = 0
+            with image_path.open("wb") as target:
+                while chunk := file.file.read(1024 * 1024):
+                    size += len(chunk)
+                    if size > MAX_UPLOAD_BYTES:
+                        return error_response(413, "IMAGE_TOO_LARGE", "ไฟล์ภาพต้องมีขนาดไม่เกิน 20 MB")
+                    target.write(chunk)
+            if size == 0:
+                return error_response(400, "EMPTY_IMAGE", "ไม่พบข้อมูลภาพ กรุณาถ่ายใหม่")
+            payload = run_job(work_dir, image_path)
+            if isinstance(payload, JSONResponse):
+                return payload
+            result = payload["result"]
+            result["scanId"] = str(uuid4())
+            # Compatibility with the old upload page, without server paths.
+            payload["results"] = [{"Roll": result["rollNumber"], "score": result["score"]["got"],
+                                   **{row["question"]: row["answer"] for row in result["answers"]}}]
+            return payload
+    finally:
+        file.file.close()
 
-        final_img_path = os.path.join(INPUTS_DIR, "student_sheet.jpg")
-        shutil.copy(temp_file_path, final_img_path)
-
-        print("⚙️ [2/3] กำลังสั่งให้ OMRChecker เริ่มตรวจกระดาษคำตอบใน my_test...")
-        process = subprocess.run(
-            ["python3", "main.py", "-i", "inputs/my_test"],
-            cwd=BASE_DIR,
-            capture_output=True,
-            text=True
-        )
-
-        # ⚙️ --- ค้นหาไฟล์ CSV ผลลัพธ์แบบยืดหยุ่นและอัตโนมัติ ---
-        output_results_dir = os.path.join(BASE_DIR, "outputs", "Results")
-        normal_output_dir = OUTPUTS_DIR
-        
-        found_csv = None
-        
-        # 1. ลองหาในโฟลเดอร์ outputs/Results (กรณีมีไฟล์ evaluation.json)
-        if os.path.exists(output_results_dir):
-            files = [os.path.join(output_results_dir, f) for f in os.listdir(output_results_dir) if f.endswith(".csv")]
-            if files:
-                found_csv = max(files, key=os.path.getctime) # ดึงเอาไฟล์ CSV ล่าสุด
-        
-        # 2. ถ้าไม่เจอ ให้ย้อนกลับมาหาในโฟลเดอร์ outputs/my_test แบบปกติ
-        if not found_csv and os.path.exists(normal_output_dir):
-            files = [os.path.join(normal_output_dir, f) for f in os.listdir(normal_output_dir) if f.endswith(".csv")]
-            if files:
-                found_csv = max(files, key=os.path.getctime)
-
-        # 3. ตรวจสอบว่าพบไฟล์ผลลัพธ์หรือไม่
-        if found_csv:
-            print(f"✅ [3/3] ตรวจสำเร็จ! พบไฟล์ผลลัพธ์ที่: {found_csv}")
-            df = pd.read_csv(found_csv)
-            
-            # 💡 [จุดแก้ไขสำคัญ] เปลี่ยนค่า NaN / ช่องว่างให้เป็นตัวอักษรว่าง "" เพื่อป้องกัน Error ตอนแปลงเป็น JSON
-            df = df.fillna("")
-            
-            results = df.to_dict(orient="records")
-            
-            # ลบไฟล์ทิ้งหลังจากใช้งาน เพื่อล้างคิวรอตรวจใบถัดไป
-            try:
-                os.remove(found_csv)
-            except Exception as e:
-                print(f"⚠️ ไม่สามารถลบไฟล์ชั่วคราวได้: {e}")
-                
-            print("="*50 + "\n")
-            return JSONResponse(content={
-                "status": "success",
-                "message": "ตรวจข้อสอบสำเร็จ",
-                "results": results
-            })
-        else:
-            print("❌ [3/3] ตรวจไม่ผ่าน! ไม่พบไฟล์ CSV ผลลัพธ์ใน outputs")
-            print("--- สาเหตุจาก OMRChecker (LOG) ---")
-            print(process.stderr if process.stderr else process.stdout)
-            print("-----------------------------------")
-            print("="*50 + "\n")
-            
-            return JSONResponse(status_code=500, content={
-                "status": "error",
-                "message": "ตรวจเสร็จสิ้น แต่ระบบหาไฟล์ผลลัพธ์ (.csv) ไม่พบ กรุณาเช็กโฟลเดอร์ outputs",
-                "log": process.stderr or process.stdout
-            })
-
-    except Exception as e:
-        print(f"💥 เกิดข้อผิดพลาดร้ายแรง (Exception): {str(e)}")
-        return JSONResponse(status_code=500, content={
-            "status": "error",
-            "message": str(e)
-        })
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
