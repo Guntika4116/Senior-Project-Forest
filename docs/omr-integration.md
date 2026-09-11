@@ -3,7 +3,7 @@
 หน้าใช้งานหลักคือ `line-liff/app/photoexam/page.tsx` ที่ `/photoexam`:
 
 ```text
-ถ่ายภาพ / เลือกภาพ → ตรวจสอบภาพ → ยืนยันส่ง
+ถ่ายภาพ → ตรวจสอบภาพ → ยืนยันส่ง
   → Next.js /api/omr/scan → Python /api/scan/
   → OMRChecker อ่านจุดอ้างอิงและช่องคำตอบ → คะแนนและคำตอบที่อ่านได้
 ```

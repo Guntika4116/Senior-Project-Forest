@@ -34,7 +34,7 @@ npm run dev
 
 ## OMRChecker
 
-หน้า `/photoexam` ใน `line-liff` เชื่อม OMRChecker แล้ว: ถ่าย/เลือกภาพ → ตรวจสอบ → ส่งตรวจ → คะแนนและคำตอบที่อ่านได้จริง
+หน้า `/photoexam` ใน `line-liff` เชื่อม OMRChecker แล้ว: ถ่ายภาพ → ตรวจสอบ → ส่งตรวจ → คะแนนและคำตอบที่อ่านได้จริง
 ดู [คู่มือเปิด frontend และ OMR API](docs/omr-integration.md) รวมถึงการเปิดกล้องผ่าน HTTPS บนโทรศัพท์
 
 ส่วนตรวจคำตอบอยู่ในโฟลเดอร์ `OMRChecker/` ของ repository นี้ ติดตั้ง dependencies โดยรันจาก root:

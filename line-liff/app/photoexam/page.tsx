@@ -7,7 +7,7 @@ import CameraStep from "@/components/exam/Camera";
 import ReviewStep from "@/components/exam/Review";
 import ConfirmStep from "@/components/exam/Confirm";
 import SuccessStep from "@/components/exam/Success";
-import { isOmrExam, isOmrResult, MAX_OMR_IMAGE_BYTES, OMR_IMAGE_TYPES, omrErrorMessage,
+import { isOmrExam, isOmrResult, omrErrorMessage,
   type OmrExam, type OmrResult } from "@/lib/omr";
 
 type Step = "instruction" | "camera" | "review" | "confirm" | "success";
@@ -52,17 +52,6 @@ export default function PhotoExamPage() {
     setPhoto({ id: crypto.randomUUID(), dataUrl });
     setError(null);
     setStep("review");
-  }
-
-  function handleUpload(file: File) {
-    if (!OMR_IMAGE_TYPES.includes(file.type) || file.size > MAX_OMR_IMAGE_BYTES) {
-      setError("กรุณาใช้รูป JPEG, PNG หรือ WebP ขนาดไม่เกิน 20 MB");
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => handleCapture(String(reader.result));
-    reader.onerror = () => setError("อ่านไฟล์ไม่ได้ กรุณาเลือกใหม่");
-    reader.readAsDataURL(file);
   }
 
   function handleRetake() {
@@ -124,7 +113,7 @@ export default function PhotoExamPage() {
         {step === "instruction" && (
           <Instruction exam={exam} error={examError || error}
             onRetry={() => { setExamError(null); setError(null); setRetry((value) => value + 1); }}
-            onStart={() => setStep("camera")} onUpload={handleUpload} />
+            onStart={() => setStep("camera")} />
         )}
         {step === "camera" && <CameraStep photoIndex={0} onCapture={handleCapture} />}
         {step === "review" && photo && (

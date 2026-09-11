@@ -7,7 +7,7 @@
 | `app/` | หน้าเว็บและ layout (App Router) |
 | `app/woods/page.tsx` | รายการและการค้นหาพรรณไม้ |
 | `app/woods/id/page.tsx` | หน้ารายละเอียดต้นแบบ เส้นทางคงที่ `/woods/id` |
-| `app/photoexam/page.tsx` | ถ่าย/เลือกภาพ ส่งตรวจ OMR และแสดงผลจริง |
+| `app/photoexam/page.tsx` | ถ่ายภาพ ส่งตรวจ OMR และแสดงผลจริง |
 | `app/api/omr/` | ตัวเชื่อมฝั่ง server ไปยัง Python OMR API |
 | `components/` | ส่วน UI ที่นำกลับมาใช้ได้ |
 | `components/wood/experimental/` | คอมโพเนนต์สำรองที่ยังไม่มีไฟล์อื่น import |

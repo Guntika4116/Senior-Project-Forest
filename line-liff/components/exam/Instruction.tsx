@@ -1,8 +1,7 @@
 import type { OmrExam } from "@/lib/omr";
 
-export default function Instruction({ onStart, onUpload, exam, error, onRetry }: {
+export default function Instruction({ onStart, exam, error, onRetry }: {
     onStart: () => void;
-    onUpload: (file: File) => void;
     exam: OmrExam | null;
     error: string | null;
     onRetry: () => void;
@@ -62,15 +61,6 @@ export default function Instruction({ onStart, onUpload, exam, error, onRetry }:
                     >
                         เริ่มถ่ายภาพ
                     </button>
-                    <label className="text-center text-emerald-700 border border-emerald-700 rounded-md px-4 py-2 cursor-pointer">
-                        เลือกรูปกระดาษคำตอบ
-                        <input type="file" accept="image/jpeg,image/png,image/webp" disabled={!exam}
-                            className="sr-only" onChange={(event) => {
-                                const file = event.target.files?.[0];
-                                if (file) onUpload(file);
-                                event.target.value = "";
-                            }} />
-                    </label>
 
                 </div>
             </div>
