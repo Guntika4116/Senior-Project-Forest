@@ -178,7 +178,7 @@ export default function CameraStep({
 
       {/* กรอบมุมสำหรับวางกระดาษ */}
       <div className="absolute inset-0 flex items-center justify-center px-10 pb-16 pointer-events-none">
-        <div className="relative w-full max-w-xs aspect-[3/4]">
+        <div className="relative w-full max-w-xs aspect-[210/297]">
           <span className="absolute top-0 left-0 w-14 h-14 border-t-4 border-l-4 border-white" />
           <span className="absolute top-0 right-0 w-14 h-14 border-t-4 border-r-4 border-white" />
           <span className="absolute bottom-0 left-0 w-14 h-14 border-b-4 border-l-4 border-white" />
