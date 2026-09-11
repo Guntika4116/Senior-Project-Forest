@@ -2,6 +2,23 @@
 
 import { useEffect, useRef, useState } from "react";
 
+type CameraCapabilities = MediaTrackCapabilities & {
+  focusMode?: string[];
+};
+
+type CameraConstraintSet = MediaTrackConstraintSet & {
+  focusMode?: string;
+};
+
+function blobToDataUrl(blob: Blob) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
 export default function CameraStep({
   photoIndex,
   onCapture,
@@ -10,7 +27,10 @@ export default function CameraStep({
   onCapture: (dataUrl: string) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [cameraReady, setCameraReady] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
 
   useEffect(() => {
     let stream: MediaStream | null = null;
@@ -18,9 +38,29 @@ export default function CameraStep({
     async function startCamera() {
       try {
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" },
+          video: {
+            facingMode: { ideal: "environment" },
+            width: { ideal: 3840 },
+            height: { ideal: 2160 },
+          },
           audio: false,
         });
+        streamRef.current = stream;
+
+        const videoTrack = stream.getVideoTracks()[0];
+        try {
+          const capabilities = videoTrack.getCapabilities() as CameraCapabilities;
+          if (capabilities.focusMode?.includes("continuous")) {
+            await videoTrack.applyConstraints({
+              advanced: [
+                { focusMode: "continuous" } as CameraConstraintSet,
+              ],
+            });
+          }
+        } catch {
+          // Keep the camera usable when a browser cannot change focus mode.
+        }
+
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -34,22 +74,52 @@ export default function CameraStep({
 
     return () => {
       stream?.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
     };
   }, []);
 
-  // ถ่ายภาพจากเฟรมปัจจุบัน
-  function handleCapture() {
-    const video = videoRef.current;
-    if (!video || video.readyState < 2) return;
+  async function captureFullResolutionPhoto() {
+    const videoTrack = streamRef.current?.getVideoTracks()[0];
+    if (!videoTrack || typeof ImageCapture === "undefined") return null;
 
+    const imageCapture = new ImageCapture(videoTrack);
+    const capabilities = await imageCapture.getPhotoCapabilities();
+    const blob = await imageCapture.takePhoto({
+      imageWidth: capabilities.imageWidth?.max,
+      imageHeight: capabilities.imageHeight?.max,
+    });
+
+    return blobToDataUrl(blob);
+  }
+
+  function captureVideoFrame(video: HTMLVideoElement) {
     const canvas = document.createElement("canvas");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return null;
 
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    onCapture(canvas.toDataURL("image/jpeg", 0.92));
+    return canvas.toDataURL("image/jpeg", 1);
+  }
+
+  async function handleCapture() {
+    const video = videoRef.current;
+    if (!video || video.readyState < 2 || isCapturing) return;
+
+    setIsCapturing(true);
+    let dataUrl: string | null = null;
+
+    try {
+      dataUrl = await captureFullResolutionPhoto();
+      if (!dataUrl) dataUrl = captureVideoFrame(video);
+    } catch {
+      // Some mobile browsers expose ImageCapture but cannot take a still photo.
+      dataUrl = captureVideoFrame(video);
+    }
+
+    setIsCapturing(false);
+    if (dataUrl) onCapture(dataUrl);
   }
 
   return (
@@ -60,6 +130,7 @@ export default function CameraStep({
           autoPlay
           playsInline
           muted
+          onCanPlay={() => setCameraReady(true)}
           className="absolute inset-0 w-full h-full object-cover"
         />
       ) : (
@@ -83,16 +154,18 @@ export default function CameraStep({
       </div>
 
       <p className="absolute bottom-24 inset-x-0 text-center text-sm text-white/90">
-        กรุณาวางกระดาษภายในกรอบ
+        {cameraReady ? "วางกระดาษในกรอบ จับโทรศัพท์ให้นิ่ง แล้วแตะถ่าย" : "กำลังเปิดกล้อง..."}
       </p>
 
       <div className="absolute bottom-6 inset-x-0 flex items-center justify-center gap-8">
         <button
           type="button"
           onClick={handleCapture}
+          disabled={!cameraReady || isCapturing}
           aria-label="ถ่ายภาพ"
-          className="w-14 h-14 rounded-full bg-white flex items-center justify-center"
+          className="w-14 h-14 rounded-full bg-white flex items-center justify-center disabled:opacity-50"
         >
+          {isCapturing && <span className="sr-only">กำลังถ่ายภาพ</span>}
         </button>
       </div>
     </div>
