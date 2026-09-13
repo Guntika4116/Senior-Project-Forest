@@ -9,10 +9,10 @@ export default function Instruction({ onStart, exam, error, onRetry }: {
     return (
         <div>
             <div className="flex flex-col items-center justify-center gap-2 p-4">
-                <h1 className="text-black text-2xl font-bold">ถ่ายภาพกระดาษคำตอบ</h1>
+                <h1 className="text-emerald-700 text-2xl font-bold">ถ่ายภาพกระดาษคำตอบ</h1>
                 <p className="text-gray-500">กรุณาอ่านคำแนะนำก่อนถ่ายภาพ</p>
 
-                {exam && <p className="text-sm text-gray-600 text-center">{exam.questionCount} ข้อ · มีเฉลย {exam.gradedCount} ข้อ · คะแนนเต็ม {exam.maxScore}</p>}
+                {exam && <p className="text-sm text-gray-600 text-center">ข้อสอบ {exam.gradedCount} ข้อ · คะแนนเต็ม {exam.maxScore}</p>}
                 {!exam && !error && <p role="status" className="text-gray-600">กำลังโหลดข้อมูลข้อสอบ...</p>}
                 {error && <div role="alert" className="text-red-700 text-center">
                     <p>{error}</p>

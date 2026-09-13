@@ -13,16 +13,30 @@ export default function ConfirmStep({ exam, onEdit, onSubmit, isSubmitting, erro
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   return (
-    <div className="p-4 flex flex-col gap-4" aria-busy={isSubmitting}>
+    <div className="p-4 flex flex-col gap-4">
       <div className="text-center">
-        <h1 className="text-black text-2xl font-bold">ส่งกระดาษคำตอบ</h1>
-        <p className="text-gray-500 mt-1">ตรวจสอบข้อมูลก่อนส่งตรวจ</p>
+        <h1 className="text-emerald-700 text-2xl font-bold">ส่งกระดาษคำตอบ</h1>
+        <p className="text-gray-500 mt-1">ตรวจสอบข้อมูลก่อนส่ง</p>
       </div>
-      <div className="bg-gray-50 rounded-lg p-4 flex flex-col gap-2 text-gray-700">
-        <h2 className="font-semibold text-emerald-700">{exam.name}</h2>
-        <p>จำนวนภาพ: 1 ภาพ</p>
-        <p>จำนวนข้อ: {exam.questionCount} ข้อ</p>
-        <p>ตรวจคะแนน {exam.gradedCount} ข้อ · คะแนนเต็ม {exam.maxScore}</p>
+      <div className="border border-gray-300 rounded-lg p-5 self-center w-full max-w-sm flex flex-col gap-2">
+        <h2 className="font-semibold text-emerald-700 text-xl">{exam.name}</h2>
+        <p className="text-sm text-gray-500">รายละเอียดการสอบ</p>
+        <div className="flex justify-between items-center gap-1 pt-3">
+          <p className="text-emerald-700">ชื่อผู้สอบ</p>
+          <p>(ใส่ตัวแปร)</p>
+        </div>
+        <div className="flex justify-between items-center gap-1">
+          <p className="text-emerald-700">เวลาในการทำ</p>
+          <p>(ใส่ตัวแปร)</p>
+        </div>
+        <div className="flex justify-between items-center gap-1">
+          <p className="text-emerald-700">วันเวลาที่ส่ง</p>
+          <p>(ใส่ตัวแปร)</p>
+        </div>
+        <div className="flex justify-between items-center gap-1">
+          <p className="text-emerald-700">จำนวนข้อ</p>
+          <p>{exam.gradedCount} ข้อ</p>
+        </div>
         <p className="text-sm">รหัสผู้สอบจะอ่านจากช่องที่ฝนบนกระดาษคำตอบ</p>
       </div>
       {error && <p role="alert" className="rounded-lg bg-red-50 p-3 text-red-700">{error}</p>}

@@ -4,24 +4,42 @@ import { useEffect, useRef, useState } from "react";
 import BackNavExam from "@/components/BackNavExam";
 import Instruction from "@/components/exam/Instruction";
 import CameraStep from "@/components/exam/Camera";
-import ReviewStep from "@/components/exam/Review";
-import ConfirmStep from "@/components/exam/Confirm";
+import ReviewStep from "@/components/exam/ReviewPhoto";
+import Scanning from "@/components/exam/Scanning";
+import ReviewAnswers, { type OmrAnswerItem } from "@/components/exam/ReviewAnswers";
 import SuccessStep from "@/components/exam/Success";
-import { isOmrExam, isOmrResult, omrErrorMessage,
-  type OmrExam, type OmrResult } from "@/lib/omr";
+import ConfirmStep from "@/components/exam/Confirm";
+import {
+  isOmrExam, isOmrResult, omrErrorMessage,
+  type OmrExam, type OmrResult
+} from "@/lib/omr";
 
-type Step = "instruction" | "camera" | "review" | "confirm" | "success";
+type Step = "instruction" | "camera" | "review" | "scanning" | "reviewAnswers" | "confirm" | "success";
 type CapturedPhoto = { id: string; dataUrl: string };
+
+function toAnswerItems(result: OmrResult): OmrAnswerItem[] {
+  return result.answers.filter((answer) => answer.graded).map((answer, index) => {
+    const number = Number.parseInt(answer.question.replace(/\D/g, ""), 10);
+    const questionNumber = Number.isFinite(number) ? number : index + 1;
+
+    return {
+      questionNumber,
+      questionText: `ข้อ ${questionNumber}`,
+      extractedAnswer: answer.answer,
+      points: answer.graded ? 1 : 0,
+    };
+  });
+}
 
 export default function PhotoExamPage() {
   const [step, setStep] = useState<Step>("instruction");
   const [photo, setPhoto] = useState<CapturedPhoto | null>(null);
   const [exam, setExam] = useState<OmrExam | null>(null);
   const [result, setResult] = useState<OmrResult | null>(null);
+  const [answerItems, setAnswerItems] = useState<OmrAnswerItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [examError, setExamError] = useState<string | null>(null);
   const [retry, setRetry] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const submitting = useRef(false);
   const requestRef = useRef<AbortController | null>(null);
 
@@ -63,8 +81,9 @@ export default function PhotoExamPage() {
   async function handleSubmit() {
     if (!photo || submitting.current) return;
     submitting.current = true;
-    setIsSubmitting(true);
     setError(null);
+    setStep("scanning");
+
     const controller = new AbortController();
     requestRef.current = controller;
     const timeout = setTimeout(() => controller.abort(), 90_000);
@@ -80,16 +99,35 @@ export default function PhotoExamPage() {
         throw new Error(omrErrorMessage(data, "อ่านผลตรวจไม่ได้ กรุณาลองส่งอีกครั้ง"));
       }
       setResult(data.result);
-      setStep("success");
+      setAnswerItems(toAnswerItems(data.result));
+
+      setStep("reviewAnswers");
     } catch (error) {
       setError(controller.signal.aborted ? "ตรวจภาพใช้เวลานานเกินไป กรุณาลองส่งอีกครั้ง" :
         error instanceof Error ? error.message : "ส่งภาพไม่สำเร็จ กรุณาลองใหม่");
+      setStep("review");
     } finally {
       clearTimeout(timeout);
       requestRef.current = null;
       submitting.current = false;
-      setIsSubmitting(false);
     }
+  }
+
+  function handleReviewAnswersNext(edited: OmrAnswerItem[]) {
+    setAnswerItems(edited);
+    setStep("confirm");
+  }
+
+  function handleAnswersConfirmed() {
+    setResult((previous) => previous && {
+      ...previous,
+      answers: previous.answers.map((answer) => {
+        const questionNumber = Number.parseInt(answer.question.replace(/\D/g, ""), 10);
+        const updated = answerItems.find((item) => item.questionNumber === questionNumber);
+        return { ...answer, answer: updated?.extractedAnswer ?? answer.answer };
+      }),
+    });
+    setStep("success");
   }
 
   function reset() {
@@ -102,7 +140,8 @@ export default function PhotoExamPage() {
   const backHandlers: Partial<Record<Step, () => void>> = {
     camera: () => setStep("instruction"),
     review: handleRetake,
-    confirm: () => { if (!submitting.current) setStep("review"); },
+    reviewAnswers: () => setStep("camera"),
+    confirm: () => setStep("reviewAnswers"),
     success: reset,
   };
 
@@ -117,13 +156,27 @@ export default function PhotoExamPage() {
         )}
         {step === "camera" && <CameraStep photoIndex={0} onCapture={handleCapture} />}
         {step === "review" && photo && (
-          <ReviewStep photo={photo} onRetake={handleRetake} onNext={() => setStep("confirm")} />
+          <ReviewStep photo={photo} error={error} onRetake={handleRetake} onNext={() => void handleSubmit()} />
         )}
-        {step === "confirm" && photo && exam && (
-          <ConfirmStep exam={exam} isSubmitting={isSubmitting} error={error}
-            onEdit={() => setStep("review")} onSubmit={handleSubmit} />
+        {step === "scanning" && <Scanning />}
+        {step === "reviewAnswers" && (
+          <ReviewAnswers
+            answers={answerItems}
+            onNext={handleReviewAnswersNext}
+          />
         )}
-        {step === "success" && result && <SuccessStep result={result} onRestart={reset} />}
+        {step === "confirm" && exam && (
+          <ConfirmStep
+            exam={exam}
+            onEdit={() => setStep("reviewAnswers")}
+            onSubmit={async () => handleAnswersConfirmed()}
+            isSubmitting={false}
+            error={error}
+          />
+        )}
+        {step === "success" && exam && result && (
+          <SuccessStep exam={exam} result={result} onRestart={reset} />
+        )}
       </div>
     </div>
   );
