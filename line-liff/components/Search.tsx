@@ -1,4 +1,8 @@
-export default function Search() {
+type SearchProps = {
+    placeholder: string;
+};
+
+export default function Search({ placeholder }: SearchProps) {
     return (
         <div className="relative flex-1">
             <svg
@@ -17,9 +21,9 @@ export default function Search() {
             </svg>
             <input
                 type="text"
-                placeholder="ค้นหาอบรม (ชื่อ / คำอธิบาย / สถานที่)"
+                placeholder={placeholder}
                 className="w-full h-11 border border-gray-300 rounded-lg ml-1 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-emerald-700"
             />
         </div>
-    )
+    );
 }

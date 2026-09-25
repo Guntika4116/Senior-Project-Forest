@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 import Filter from "@/components/Filter";
-import Search from "@/components/SearchWood";
+import Search from "@/components/Search";
 import WoodCard from "@/components/wood/WoodCard";
 import woodFilterData from "@/data/filterWoods.json";
 import woodDetail from "@/data/woodDetail.json";
@@ -75,7 +75,9 @@ export default function Wood() {
       </div>
       <div className="flex gap-4 mt-3">
         {/* กล่องค้นหา */}
-        <Search />
+        <Search 
+          placeholder="ค้นหาชื่อพันธุ์ไม้ (ชื่อสามัญ / วิทยาศาสตร์)"
+        />
 
         {/* ปุ่ม filter */}
         <button
