@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 import Filter from "@/components/Filter";
-import Search from "@/components/Search";
+import Search from "@/components/SearchWood";
 import WoodCard from "@/components/wood/WoodCard";
 import woodFilterData from "@/data/filterWoods.json";
 import woodDetail from "@/data/woodDetail.json";
@@ -20,7 +20,7 @@ function getDefaultFilters(): Record<string, string> {
   return defaults;
 }
 
-export default function Home() {
+export default function Wood() {
   //เก็บสถานะ Filter ว่าเปิดหรือปิด
   const [open, setOpen] = useState(false);
 
