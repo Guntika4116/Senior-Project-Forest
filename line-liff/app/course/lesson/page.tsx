@@ -2,12 +2,15 @@
 
 import BackNav from "@/components/BackNav";
 import LessonC from "@/components/course/LessonCard";
+import Navbar from "@/components/course/Navbar";
+
 export default function Lesson() {
     return (
         <main>
             <BackNav />
+            <Navbar />
 
-            <div className="m-6 flex flex-col gap-4">
+            <div className="m-6 mb-26 flex flex-col gap-4">
                 <div className="text-white flex flex-col justify-center px-4 py-12 rounded-md" style={{ backgroundImage: `url(https://png.pngtree.com/background/20250107/original/pngtree-tree-planting-growth-love-of-nature-picture-image_15553291.jpg)`, backgroundSize: 'cover' }}>
                     <h1 className="text-lg">อบรมพันธุ์ไม้ครั้งที่ 3 {/*{name}*/}</h1>
                     <p className="text-sm">เรียนรู้โครงสร้างเนื้อไม้ การจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย และการลงทะเบียนข้อมูลอัตลักษณ์ไม้ {/*{description}*/}</p>

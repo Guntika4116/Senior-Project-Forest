@@ -1,8 +1,34 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import BackNav from "@/components/BackNav";
 
 export default function Register() {
+    const router = useRouter();
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const REGISTER_CODE = "1234";
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (submitting) return;
+
+        const formData = new FormData(e.currentTarget);
+        const code = String(formData.get("code") ?? "").trim();
+
+        setSubmitting(true);
+        setError(null);
+
+        if (code === REGISTER_CODE) {
+            router.push("/course/overview");
+            return;
+        }
+
+        setError("รหัสไม่ถูกต้อง");
+        setSubmitting(false);
+    }
+
     return (
         <main>
             <BackNav />
@@ -22,11 +48,18 @@ export default function Register() {
                     </div>
                     <p className="text-sm">กรอกรหัสลงทะเบียนเพื่อเข้าถึงเนื้อหาและข้อสอบในคอร์สนี้</p>
                     <div className="flex flex-col">
-                        <form action="" method="get" className="flex flex-col gap-1">
-                            <label htmlFor="" className="text-sm text-emerald-700">รหัสลงทะเบียน</label>
-                            <input type="text" placeholder="กรอกรหัส" className="text-sm border border-zinc-300 rounded-md px-4 py-2" />
-                            <label htmlFor="" className="text-xs text-zinc-500">ขอรหัสได้จากผู้สอนหรือผู้ดูแลระบบ</label>
-                            <button className="bg-emerald-700 text-white px-4 py-2 rounded-lg mt-3">ยืนยันการลงทะเบียน</button>
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-1">
+                            <label htmlFor="code" className="text-sm text-emerald-700">รหัสลงทะเบียน</label>
+                            <input type="text" id="code" name="code" placeholder="กรอกรหัส" className="text-sm border border-zinc-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-emerald-700" />
+                            <p className="text-xs text-zinc-500">ขอรหัสได้จากผู้สอนหรือผู้ดูแลระบบ</p>
+                            <button
+                                type="submit"
+                                disabled={submitting}
+                                className="bg-emerald-700 text-white px-4 py-2 rounded-lg mt-3 disabled:opacity-50"
+                            >
+                                {submitting ? "กำลังลงทะเบียน..." : "ยืนยันการลงทะเบียน"}
+                            </button>
+                            {error && <p className="text-xs text-red-600 mt-1 text-center">{error}</p>}
                         </form>
                     </div>
                 </div>

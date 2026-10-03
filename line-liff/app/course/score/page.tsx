@@ -1,11 +1,13 @@
 import BackNav from "@/components/BackNav";
+import Navbar from "@/components/course/Navbar";
 
 export default function Score() {
     return (
         <main>
             <BackNav />
+            <Navbar />
 
-            <div className="m-6 flex flex-col gap-4">
+            <div className="m-6 mb-26 flex flex-col gap-4">
                 <h1 className="text-emerald-700 text-xl font-bold">คะแนนทั้งหมด</h1>
 
                 <div className="flex flex-col gap-1 border border-gray-300 rounded-md py-4 px-3">

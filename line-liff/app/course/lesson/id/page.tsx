@@ -1,13 +1,15 @@
 "use client";
 
 import BackNav from "@/components/BackNav";
+import Navbar from "@/components/course/Navbar";
 
 export default function DetailLesson() {
     return (
         <main>
             <BackNav />
+            <Navbar />
 
-            <div className="m-6 flex flex-col gap-4">
+            <div className="m-6 mb-26 flex flex-col gap-4">
                 <h1 className="text-emerald-700 text-xl font-bold">บทที่ 1 : โครงสร้างพื้นฐานของเนื้อไม้ และการจำแนกด้วยตาเปล่า</h1>
                 <div className="flex gap-2 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4 text-gray-500">

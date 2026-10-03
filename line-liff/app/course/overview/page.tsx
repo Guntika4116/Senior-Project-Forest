@@ -10,7 +10,7 @@ export default function Overview() {
             <BackNav />
             <Navbar />
 
-            <div className="m-6 flex flex-col gap-4">
+            <div className="m-6 mb-26 flex flex-col gap-4">
                 <div className="flex flex-col gap-3 p-4 bg-white rounded-lg border border-zinc-300">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
