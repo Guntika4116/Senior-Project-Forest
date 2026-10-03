@@ -8,7 +8,6 @@ type CourseCardProps = {
     registered: string;
     date: string;
     location: string;
-    linkurl: string;
 };
 
 export default function CourseCard({
@@ -19,7 +18,6 @@ export default function CourseCard({
     registered,
     date,
     location,
-    linkurl
 }: CourseCardProps) {
     const bgImage = imageUrl;
 
@@ -56,7 +54,6 @@ export default function CourseCard({
                             </svg>
                             <p className="text-md text-zinc-600">{location}</p>
                         </div>
-                        <p className="text-sm items-center justify-center border border-zinc-300 rounded-full px-2">เปิดในแผนที่</p>
                     </div>
                 </div>
             </div>

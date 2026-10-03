@@ -72,7 +72,6 @@ export default function Course() {
                         registered="1" //{wood.registered}
                         date="19 เม.ย. 2569 - 25 เม.ย. 2569"
                         location="อาคารใหม่"
-                        linkurl="o"
                     />
                     {/* {woodDetail.map((wood) => (
                         <EducateCard
