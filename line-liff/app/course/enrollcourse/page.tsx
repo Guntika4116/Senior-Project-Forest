@@ -35,7 +35,7 @@ export default function Register() {
 
             <div className="m-6 flex flex-col gap-4">
                 <div className="text-white flex flex-col justify-center px-4 py-12 rounded-md" style={{ backgroundImage: `url("https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg")`, backgroundSize: 'cover' }}>
-                    <h1 className="text-lg">อบรมพันธุ์ไม้ครั้งที่ 3 {/*{name}*/}</h1>
+                    <h1 className="text-lg">อบรมพรรณไม้ครั้งที่ 3 {/*{name}*/}</h1>
                     <p className="text-sm">เรียนรู้โครงสร้างเนื้อไม้ การจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย และการลงทะเบียนข้อมูลอัตลักษณ์ไม้ {/*{description}*/}</p>
                 </div>
 

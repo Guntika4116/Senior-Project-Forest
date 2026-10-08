@@ -1,11 +1,10 @@
 "use client";
 
 import BackNav from "@/components/BackNav";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Exam() {
-    const [value, setValue] = useState("");
+export default function EnrollExamPage() {
     const [error, setError] = useState("");
     const REGISTER_CODE = "123456";
     const router = useRouter();
@@ -75,6 +74,7 @@ export default function Exam() {
                             type="text"
                             id="code"
                             name="code"
+                            inputMode="numeric"
                             className="border border-zinc-300 rounded-lg p-2 w-full text-center text-sm focus:outline-emerald-700"
                             placeholder="xxxxxx"
                             maxLength={6}

@@ -66,7 +66,7 @@ export default function Course() {
                     <CourseCard
                         key="" //{wood.id}
                         id="1" //{wood.id}
-                        name="อบรมพันธุ์ไม้ครั้งที่ 3" //{wood.commonname ?? ""}
+                        name="อบรมพรรณไม้ครั้งที่ 3" //{wood.commonname ?? ""}
                         description="เรียนรู้โครงสร้างเนื้อไม้ การจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย และการลงทะเบียนข้อมูลอัตลักษณ์ไม้" //{wood.scientificname}
                         imageUrl="https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg" //{wood.imageUrl?.[0] ?? ""}
                         registered="1" //{wood.registered}
@@ -77,7 +77,7 @@ export default function Course() {
                         <EducateCard
                             key={wood.id}
                             id={wood.id}
-                            name="อบรมพันธุ์ไม้ครั้งที่ 3" //{wood.commonname ?? ""}
+                            name="อบรมพรรณไม้ครั้งที่ 3" //{wood.commonname ?? ""}
                             description="เรียนรู้โครงสร้างเนื้อไม้ การจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย และการลงทะเบียนข้อมูลอัตลักษณ์ไม้" //{wood.scientificname}
                             imageUrl={wood.imageUrl?.[0] ?? ""}
                             registered="1" //{wood.registered}

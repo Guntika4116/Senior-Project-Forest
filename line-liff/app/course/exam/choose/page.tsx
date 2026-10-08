@@ -1,7 +1,7 @@
 import BackNavE from "@/components/exam/BackNavExam";
 import Link from "next/link";
 
-export default function Exam() {
+export default function ChooseExamPage() {
 
     return (
         <main>

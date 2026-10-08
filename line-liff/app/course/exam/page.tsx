@@ -4,10 +4,26 @@ import BackNav from "@/components/BackNav";
 import Navbar from "@/components/course/Navbar";
 import Search from "@/components/Search";
 import ExamCard from "@/components/exam/ExamCard";
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
+
+type ExamItem = ComponentProps<typeof ExamCard> & { id: string };
+
+const EXAMS: ExamItem[] = [
+    { id: "1", examtype: "ปรนัย", status: "ทำแล้ว", passed: "ผ่าน" },
+    { id: "2", examtype: "ปรนัย", status: "ทำแล้ว", passed: "ไม่ผ่าน" },
+    { id: "3", examtype: "เติมข้อมูลพรรณไม้", status: "ยังไม่ได้ทำ" },
+];
+
+const ALL_TYPES = "ทั้งหมด";
+const TYPE_OPTIONS = [ALL_TYPES, "ปรนัย", "อัตนัย"];
 
 export default function Exam() {
-    const [value, setValue] = useState("");
+    const [typeFilter, setTypeFilter] = useState(ALL_TYPES);
+
+    const visibleExams =
+        typeFilter === ALL_TYPES
+            ? EXAMS
+            : EXAMS.filter((exam) => exam.examtype === typeFilter);
 
     return (
         <main>
@@ -25,30 +41,27 @@ export default function Exam() {
                 <div className="flex flex-col gap-1">
                     <Search placeholder="ค้นหาชื่อการสอบ..." />
                     <select
-                        id="course"
-                        value={value}
-                        onChange={(e) => setValue(e.target.value)}
+                        id="exam-type"
+                        aria-label="ประเภทข้อสอบ"
+                        value={typeFilter}
+                        onChange={(e) => setTypeFilter(e.target.value)}
                         className="text-sm w-full border border-zinc-300 rounded-md m-1 px-4 py-2 bg-white focus:outline-none focus:ring focus:ring-emerald-700 text-emerald-700"
                     >
-                        <option value="ทั้งหมด">ประเภท: ทั้งหมด</option>
-                        <option value="ปรนัย">ประเภท: ปรนัย</option>
-                        <option value="อัตนัย">ประเภท: อัตนัย</option>
+                        {TYPE_OPTIONS.map((type) => (
+                            <option key={type} value={type}>
+                                ประเภท: {type}
+                            </option>
+                        ))}                    
                     </select>
                 </div>
 
-                <ExamCard
-                    examtype="ปรนัย"
-                    status="ทำแล้ว"
-                    passed="ผ่าน"
-                />
-                <ExamCard 
-                    examtype="ปรนัย" 
-                    status="ทำแล้ว" 
-                    passed="ไม่ผ่าน" />
+                {visibleExams.map(({ id, ...cardProps }) => (
+                    <ExamCard key={id} {...cardProps} />
+                ))}
 
-                <ExamCard 
-                    examtype="เติมข้อมูลพรรณไม้" 
-                    status="ยังไม่ได้ทำ" />
+                {visibleExams.length === 0 && (
+                    <p className="text-sm text-zinc-500 text-center">ไม่พบข้อสอบ</p>
+                )}
             </div>
         </main>
     );

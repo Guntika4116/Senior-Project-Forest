@@ -1,11 +1,41 @@
-export default function ExamFillAnswer() {
+export type FillQuestion = {
+    id: number;
+    question: string;
+    answer: string[]; // รับได้หลายคำตอบ เช่น ["ไม้สัก", "สัก", "teak"]
+    score: number;
+};
 
-    const question = {
-        1: {
-            question: `ตัวอย่างไม้ปริศนาหมายเลข 1 (คำใบ้: มีลักษณะพอร์วงแหวนชัดเจน)`,
-        },
-    };
+type ExamFillAnswerProps = {
+    no: number;
+    question: FillQuestion;
+    value: string;
+    onChange: (text: string) => void;
+};
 
+const questions: Question[] = [
+    {
+        id: 1,
+        question:
+            "ลักษณะเด่นทางกายวิภาคในข้อใด ที่ใช้เป็นจุดสังเกตสำคัญที่สุดในการระบุว่าไม้ชิ้นนั้นคือ “ไม้สัก” (Teak)?",
+        answer: "",
+        score: 1,
+    },
+    {
+        id: 2,
+        question:
+            "หากผู้เข้าอบรมใช้แว่นขยายส่องดูหน้าตัดไม้ แล้วพบโครงสร้างของ “พาเรงคิมา” มีลักษณะล้อมรอบพอร์เป็นรูปดวงตาหรือปีกนก (Aliform) อย่างชัดเจน ตัวอย่างไม้ปริศนานี้มีแนวโน้มที่จะเป็นไม้ชนิดใดมากที่สุด?",
+        answer: "",
+        score: 1,
+    },
+];
+
+type ExamChoiceProps = {
+    no?: number;
+    value?: number | null;
+    onChange?: (index: number) => void;
+};
+
+export default function ExamFillAnswer({ no, question: q, value, onChange }: ExamFillAnswerProps) {
 
     return (
         <div className="flex flex-col gap-2 p-4 rounded-lg border border-zinc-300">
