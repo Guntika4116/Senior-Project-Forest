@@ -3,6 +3,7 @@
 import BackNav from "@/components/BackNav";
 import Navbar from "@/components/course/Navbar";
 import Search from "@/components/Search";
+import ExamCard from "@/components/exam/ExamCard";
 import { useState } from "react";
 
 export default function Exam() {
@@ -34,6 +35,20 @@ export default function Exam() {
                         <option value="อัตนัย">ประเภท: อัตนัย</option>
                     </select>
                 </div>
+
+                <ExamCard
+                    examtype="ปรนัย"
+                    status="ทำแล้ว"
+                    passed="ผ่าน"
+                />
+                <ExamCard 
+                    examtype="ปรนัย" 
+                    status="ทำแล้ว" 
+                    passed="ไม่ผ่าน" />
+
+                <ExamCard 
+                    examtype="เติมข้อมูลพรรณไม้" 
+                    status="ยังไม่ได้ทำ" />
             </div>
         </main>
     );

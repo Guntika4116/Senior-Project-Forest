@@ -46,7 +46,7 @@ export default function Navbar() {
                             className={`flex flex-col items-center ${menu.padding} py-3 rounded-full transition-colors ${
                                 active
                                     ? "bg-emerald-700 text-white"
-                                    : "text-zinc-600 hover:text-emerald-700"
+                                    : "text-zinc-600"
                             }`}
                         >
                             <svg

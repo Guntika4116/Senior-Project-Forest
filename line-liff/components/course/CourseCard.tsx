@@ -23,7 +23,7 @@ export default function CourseCard({
 
     return (
         // ยัง link ไปแค่หน้า id เฉยๆ ยังไม่ได้ link ไปยังข้อมูลของแต่ละไม้
-        <Link href={`/course/register`} className="rounded-lg shadow-md w-full h-90 flex flex-col justify-end" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
+        <Link href={`/course/enrollcourse`} className="rounded-lg shadow-md w-full h-90 flex flex-col justify-end" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
             <div className="relative bg-white p-4 rounded-b-lg justify-between items-center">
                 <div className="absolute -top-30 right-4 flex items-center justify-center gap-2 bg-emerald-100 w-fit px-2 rounded-full py-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-5">

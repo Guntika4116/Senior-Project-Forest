@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import BackNavExam from "@/components/BackNavExam";
-import Instruction from "@/components/exam/Instruction";
-import CameraStep from "@/components/exam/Camera";
-import ReviewStep from "@/components/exam/ReviewPhoto";
-import Scanning from "@/components/exam/Scanning";
-import ReviewAnswers, { type OmrAnswerItem } from "@/components/exam/ReviewAnswers";
-import SuccessStep from "@/components/exam/Success";
-import ConfirmStep from "@/components/exam/Confirm";
+import BackNavExam from "@/components/exam/BackNavExam";
+import Instruction from "@/components/exam/photoexam/Instruction";
+import CameraStep from "@/components/exam/photoexam/Camera";
+import ReviewStep from "@/components/exam/photoexam/ReviewPhoto";
+import Scanning from "@/components/exam/photoexam/Scanning";
+import ReviewAnswers, { type OmrAnswerItem } from "@/components/exam/photoexam/ReviewAnswers";
+import SuccessStep from "@/components/exam/photoexam/Success";
+import ConfirmStep from "@/components/exam/photoexam/Confirm";
 import {
   isOmrExam, isOmrResult, omrErrorMessage,
   type OmrExam, type OmrResult
