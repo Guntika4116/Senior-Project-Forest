@@ -1,8 +1,8 @@
 "use client";
 
 import BackNav from "@/components/exam/BackNavExamNTime";
-import ExamCh, { questions } from "@/components/exam/normalexam/ExamChoice";
-import ExamFA from "@/components/exam/normalexam/ExamFillAns";
+import ExamCh, { questions as choiceQuestions } from "@/components/exam/normalexam/ExamChoice";
+import ExamFA, { questionsfill as fillQuestions } from "@/components/exam/normalexam/ExamFillAns";
 import Success from "@/components/exam/normalexam/Success";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,15 @@ export default function NormalExamPage() {
     const router = useRouter();
     const [submitted, setSubmitted] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+
+    const [choiceAnswers, setChoiceAnswers] = useState<Record<number, number | null>>({});
+    const [fillAnswers, setFillAnswers] = useState<Record<number, string>>({});
+    
+    const total = choiceQuestions.length + fillQuestions.length;
+    const answeredCount =
+        choiceQuestions.filter((q) => choiceAnswers[q.id] != null).length +
+        fillQuestions.filter((q) => (fillAnswers[q.id] ?? "").trim() !== "").length;
+    const remaining = total - answeredCount;
 
     function handleSubmit() {
         setShowConfirm(true);
@@ -35,10 +44,30 @@ export default function NormalExamPage() {
 
                 {!submitted && (
                     <>
-                        {questions.map((q) => (
-                            <ExamCh key={q.id} no={q.id} />
+                        {/* เปลี่ยนให้แสดงผลตรงนี้ */}
+                        {choiceQuestions.map((q) => (
+                            <ExamCh
+                                key={`choice-${q.id}`}
+                                no={q.id}
+                                value={choiceAnswers[q.id] ?? null}
+                                onChange={(index) =>
+                                    setChoiceAnswers((prev) => ({ ...prev, [q.id]: index }))
+                                }
+                            />
                         ))}
+                        {/* {fillQuestions.map((q: { id: number; }) => (
+                            <ExamFA
+                                key={`fill-${q.id}`}
+                                no={q.id}
+                                value={fillAnswers[q.id] ?? ""}
+                                onChange={(text) =>
+                                    setFillAnswers((prev) => ({ ...prev, [q.id]: text }))
+                                }
+                            />
+                        ))} */}
+
                         <p className="text-sm text-zinc-400 text-end">ยังตอบไม่ครบ (2 ข้อ)</p>
+                        
                         <div className="flex justify-between">
                             <button
                                 type="button"
