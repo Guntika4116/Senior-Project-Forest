@@ -23,15 +23,15 @@ export default function ConfirmStep({ exam, onEdit, onSubmit, isSubmitting, erro
         <p className="text-sm text-gray-500">รายละเอียดการสอบ</p>
         <div className="flex justify-between items-center gap-1 pt-3">
           <p className="text-emerald-700">ชื่อผู้สอบ</p>
-          <p>(ใส่ตัวแปร)</p>
+          <p>นายป่าไม้ สมมติ</p>
         </div>
         <div className="flex justify-between items-center gap-1">
           <p className="text-emerald-700">เวลาในการทำ</p>
-          <p>(ใส่ตัวแปร)</p>
+          <p>00:58:20</p>
         </div>
         <div className="flex justify-between items-center gap-1">
           <p className="text-emerald-700">วันเวลาที่ส่ง</p>
-          <p>(ใส่ตัวแปร)</p>
+          <p>20/10 15.30 น.</p>
         </div>
         <div className="flex justify-between items-center gap-1">
           <p className="text-emerald-700">จำนวนข้อ</p>

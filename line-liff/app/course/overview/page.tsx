@@ -19,7 +19,7 @@ export default function Overview() {
                             </svg>
                             <h1 className="text-emerald-700 font-bold text-lg">ประกาศ</h1>
                         </div>
-                        <p className="text-emerald-700 text-sm">1/3</p>
+                        <p className="text-emerald-700 text-sm">1/1</p>
                     </div>
                     <Announcement />
                 </div>

@@ -45,7 +45,7 @@ export default function NormalExamPage() {
                 {!submitted && (
                     <>
                         {/* เปลี่ยนให้แสดงผลตรงนี้ */}
-                        {choiceQuestions.map((q) => (
+                        {/* {choiceQuestions.map((q) => (
                             <ExamCh
                                 key={`choice-${q.id}`}
                                 no={q.id}
@@ -54,8 +54,8 @@ export default function NormalExamPage() {
                                     setChoiceAnswers((prev) => ({ ...prev, [q.id]: index }))
                                 }
                             />
-                        ))}
-                        {/* {fillQuestions.map((q: { id: number; }) => (
+                        ))} */}
+                        {fillQuestions.map((q: { id: number; }) => (
                             <ExamFA
                                 key={`fill-${q.id}`}
                                 no={q.id}
@@ -64,7 +64,7 @@ export default function NormalExamPage() {
                                     setFillAnswers((prev) => ({ ...prev, [q.id]: text }))
                                 }
                             />
-                        ))} */}
+                        ))}
 
                         <p className="text-sm text-zinc-400 text-end">ยังตอบไม่ครบ (2 ข้อ)</p>
                         

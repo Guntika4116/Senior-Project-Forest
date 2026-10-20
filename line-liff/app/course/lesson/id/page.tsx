@@ -50,10 +50,13 @@ export default function DetailLesson() {
                     <div className="flex flex-col gap-2">
                         <div className="flex flex-col gap-1">
                             <p className="text-gray-700 text-sm">วิดีโอแนะนำโครงสร้างเนื้อไม้</p>
-                            <video controls className="w-full rounded-md">
-                                <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" type="video/mp4" />
-                                Your browser does not support the video tag.
-                            </video>
+                            <iframe
+                                src="https://www.youtube.com/embed/oLw3Tpx385o"
+                                title="วิดีโอบทเรียน"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                className="w-full h-full rounded-lg"
+                            />
                         </div>
                     </div>
                 </div>
