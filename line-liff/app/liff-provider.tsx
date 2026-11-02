@@ -1,28 +1,71 @@
 "use client";
+
 import { createContext, useContext, useEffect, useState } from "react";
 import liff from "@line/liff";
 
-const LiffContext = createContext<{ profile: any; ready: boolean }>({ profile: null, ready: false });
+type LiffProfile = Awaited<ReturnType<typeof liff.getProfile>>;
+type LiffStatus = "loading" | "authenticated" | "unconfigured" | "error";
+type LiffContextValue = {
+  profile: LiffProfile | null;
+  ready: boolean;
+  status: LiffStatus;
+};
+
+const LiffContext = createContext<LiffContextValue>({
+  profile: null,
+  ready: false,
+  status: "loading",
+});
+
 export const useLiff = () => useContext(LiffContext);
 
 export default function LiffProvider({ children }: { children: React.ReactNode }) {
-  const [profile, setProfile] = useState<any>(null);
-  const [ready, setReady] = useState(false);
+  const [profile, setProfile] = useState<LiffProfile | null>(null);
+  const [status, setStatus] = useState<LiffStatus>(
+    process.env.NEXT_PUBLIC_LIFF_ID ? "loading" : "unconfigured",
+  );
 
   useEffect(() => {
-    liff.init({ liffId: process.env.LIFF_ID! }).then(async () => {
-      if (!liff.isLoggedIn()) {
-        liff.login();
-        return;
+    const liffId = process.env.NEXT_PUBLIC_LIFF_ID;
+    if (!liffId) return;
+
+    let active = true;
+
+    async function initialize() {
+      try {
+        await liff.init({ liffId: liffId! });
+        if (!active) return;
+
+        if (!liff.isLoggedIn()) {
+          liff.login();
+          return;
+        }
+
+        const lineProfile = await liff.getProfile();
+        if (active) {
+          setProfile(lineProfile);
+          setStatus("authenticated");
+        }
+      } catch (error) {
+        console.error("LIFF initialization failed", error);
+        if (active) setStatus("error");
       }
-      const p = await liff.getProfile();
-      setProfile(p);
-      setReady(true);
-    });
+    }
+
+    void initialize();
+    return () => {
+      active = false;
+    };
   }, []);
 
-  console.log("LIFF ID:", process.env.LIFF_ID);
-
-//   if (!ready) return <div>กำลังเข้าสู่ระบบผ่าน LINE...</div>;
-  return <LiffContext.Provider value={{ profile, ready }}>{children}</LiffContext.Provider>;
+  return (
+    <LiffContext.Provider value={{ profile, ready: status === "authenticated", status }}>
+      {status === "error" && (
+        <div role="alert" className="bg-red-50 px-4 py-3 text-sm text-red-800">
+          เข้าสู่ระบบ LINE ไม่สำเร็จ กรุณาเปิดผ่าน LINE อีกครั้งหรือลองโหลดหน้าใหม่
+        </div>
+      )}
+      {children}
+    </LiffContext.Provider>
+  );
 }

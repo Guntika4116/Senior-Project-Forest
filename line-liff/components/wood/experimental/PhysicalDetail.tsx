@@ -1,6 +1,8 @@
+"use client";
+
 import { useState } from "react"
 
-export default function physicalD() {
+export default function PhysicalDetail() {
     const [open, setOpen] = useState(false);
     return (
         <div>

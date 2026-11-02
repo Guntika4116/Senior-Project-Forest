@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 
-export default function back() {
+export default function BackNav() {
   const router = useRouter();
   return (
 

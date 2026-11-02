@@ -52,8 +52,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${prompt.variable} h-full antialiased`}
     >
       <body className={`${prompt.className} min-h-full flex flex-col`}>
-        {/* <LiffProvider>{children}</LiffProvider> */}
-        {children}
+        <LiffProvider>{children}</LiffProvider>
         </body>
     </html>
   );

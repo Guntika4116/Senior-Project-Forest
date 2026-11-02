@@ -1,6 +1,8 @@
+"use client";
+
 import { useState } from "react";
 
-export default function poreD() {
+export default function PoreDetail() {
   const [open, setOpen] = useState(false);
   return (
     <div className="mt-4">

@@ -37,11 +37,11 @@ npm start
 
 - `NEXT_PUBLIC_API_BASE_URL`: URL ของ API ที่ใช้ใน `lib/woods.ts` ค่านี้จะมองเห็นได้จาก browser
 - `OMR_API_URL`: URL ของ Python OMR API ใช้เฉพาะฝั่ง server ค่าเริ่มต้น `http://127.0.0.1:8000` ดู [คู่มือ OMR](omr-integration.md)
-- `LIFF_ID`: ชื่อที่โค้ดปัจจุบันใช้ใน `app/liff-provider.tsx` แต่ยังไม่ถูกเปิดเผยให้ client ควรแก้โค้ดและ template พร้อมกันเมื่อเชื่อม LINE login โดยใช้ตัวแปร public สำหรับ LIFF ID เท่านั้น
+- `NEXT_PUBLIC_LIFF_ID`: LIFF ID ที่ `app/liff-provider.tsx` ใช้ฝั่ง browser; ต้องกำหนดตอน build และไม่ใช่ channel secret
 
 ## งานที่ยังต้องพัฒนา
 
-- เชื่อม LIFF environment ฝั่ง client และจัดการข้อผิดพลาดการ login
+- ตรวจ LINE ID token ฝั่ง server สร้าง session และผูกกับบัญชีระบบเดิม
 - เปลี่ยนหน้า `/woods/id` เป็นเส้นทางที่รับ ID จริง พร้อมแก้ลิงก์ในการ์ด
 - เชื่อมหน้ารายการกับ API และตรวจรูปแบบข้อมูลให้ตรงกัน
 - ตรวจ mapping ตัวกรองกับข้อมูลจริง

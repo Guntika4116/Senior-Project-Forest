@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 
-export default function back({ onBack }: { onBack?: () => void } = {}) {
+export default function BackNavExamNTime({ onBack }: { onBack?: () => void } = {}) {
     const router = useRouter();
     return (
 

@@ -13,6 +13,7 @@ OMRChecker/      ระบบประมวลผลและตรวจคำ
 
 - [ขอบเขตและเป้าหมายโครงการ](docs/project-overview.md) — ฟีเจอร์ที่วางแผนไว้ ไม่ใช่รายการที่พัฒนาเสร็จทั้งหมด
 - [คู่มือพัฒนาเว็บแอป](docs/development.md)
+- [แผนเชื่อมต่อกับสถาปัตยกรรมระบบ](docs/architecture-integration.md)
 - [แนวทางร่วมพัฒนา](CONTRIBUTING.md)
 
 ## เริ่มใช้งานเว็บแอป
@@ -30,7 +31,7 @@ npm run dev
 
 คำสั่ง npm ต้องรันใน `line-liff/` ซึ่งมี `package.json` ส่วน `.env` ที่ root จะไม่ถูกโหลดเป็น environment ของแอปนี้โดยอัตโนมัติ
 
-**ข้อจำกัดปัจจุบัน:** โค้ด LIFF ฝั่ง browser อ่าน `process.env.LIFF_ID` ซึ่งยังไม่ได้ตั้งให้เปิดเผยฝั่ง client การใส่ค่าใน `.env.local` เพียงอย่างเดียวจึงยังไม่ทำให้ LINE login พร้อมใช้งาน ดูรายละเอียดในคู่มือพัฒนา
+หากต้องการทดสอบ LINE login ให้ตั้ง `NEXT_PUBLIC_LIFF_ID` และเปิดแอปผ่าน LIFF URL บน HTTPS; ระบบยังไม่ได้ตรวจ token หรือผูกบัญชีกับระบบเดิม ดู [แผนเชื่อมต่อ](docs/architecture-integration.md)
 
 ## OMRChecker
 
