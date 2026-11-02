@@ -1,0 +1,51 @@
+{
+  "size": {
+    "width": 2500,
+    "height": 1686
+  },
+  "selected": true,
+  "name": "WoodCertify Student",
+  "chatBarText": "เมนู",
+  "areas": [
+    {
+      "bounds": { "x": 0, "y": 350, "width": 833, "height": 490 },
+      "action": {
+        "type": "uri",
+        "label": "ค้นหาพรรณไม้",
+        "uri": "https://liff.line.me/2010609183-kINtWyQr"
+      }
+    },
+    {
+      "bounds": { "x": 833, "y": 350, "width": 834, "height": 490 },
+      "action": {
+        "type": "uri",
+        "label": "ดูคะแนน",
+        "uri": "https://liff.line.me/2010609183-kINtWyQr/score"
+      }
+    },
+    {
+      "bounds": { "x": 1667, "y": 350, "width": 833, "height": 490 },
+      "action": {
+        "type": "message",
+        "label": "คู่มือ",
+        "text": "คู่มือ"
+      }
+    },
+    {
+      "bounds": { "x": 0, "y": 840, "width": 1250, "height": 846 },
+      "action": {
+        "type": "uri",
+        "label": "คอร์สเรียนทั้งหมด",
+        "uri": "https://liff.line.me/2010609183-kINtWyQr/courses"
+      }
+    },
+    {
+      "bounds": { "x": 1250, "y": 840, "width": 1250, "height": 846 },
+      "action": {
+        "type": "message",
+        "label": "คอร์สเรียนของฉัน",
+        "text": "ดูคอร์สเรียนของฉัน"
+      }
+    }
+  ]
+}

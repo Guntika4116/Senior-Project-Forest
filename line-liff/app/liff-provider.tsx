@@ -33,6 +33,9 @@ export default function LiffProvider({ children }: { children: React.ReactNode }
 
     async function initialize() {
       try {
+        // ลิงก์ LIFF ที่ต่อท้ายด้วย /score หรือ /courses จะเข้ามาที่ /woods ก่อน
+        // LINE เก็บหน้าปลายทางไว้ใน liff.state ระหว่างพาไปหน้าที่เลือก
+        const isPrimaryRedirect = new URL(window.location.href).searchParams.has("liff.state");
         await liff.init({ liffId: liffId! });
         if (!active) return;
 
@@ -53,6 +56,10 @@ export default function LiffProvider({ children }: { children: React.ReactNode }
           }
           return;
         }
+
+        // ถ้ายังอยู่ที่ทางผ่านของ LINE อย่าเพิ่งแสดงหน้าพรรณไม้
+        // รอให้ LINE เปิด URL ปลายทาง แล้วหน้านั้นจะเริ่มต้น LIFF ใหม่อีกครั้ง
+        if (isPrimaryRedirect) return;
 
         const lineProfile = await liff.getProfile();
         if (active) {
@@ -78,7 +85,13 @@ export default function LiffProvider({ children }: { children: React.ReactNode }
           เข้าสู่ระบบ LINE ไม่สำเร็จ กรุณาเปิดผ่าน LINE อีกครั้งหรือลองโหลดหน้าใหม่
         </div>
       )}
-      {children}
+      {status === "loading" ? (
+        <div className="flex min-h-screen items-center justify-center px-4 text-sm text-zinc-600">
+          รอสักครู่...
+        </div>
+      ) : (
+        children
+      )}
     </LiffContext.Provider>
   );
 }
