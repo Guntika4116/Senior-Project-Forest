@@ -37,7 +37,20 @@ export default function LiffProvider({ children }: { children: React.ReactNode }
         if (!active) return;
 
         if (!liff.isLoggedIn()) {
-          liff.login();
+          const currentUrl = new URL(window.location.href);
+          const isWoodsPage =
+            currentUrl.pathname === "/woods" ||
+            currentUrl.pathname.startsWith("/woods/");
+
+          if (isWoodsPage) {
+            // กลับมาหน้าเดิมหลังล็อกอิน เช่น เปิดหน้าลงทะเบียนแล้วต้องกลับมาหน้าลงทะเบียน
+            for (const key of ["code", "state", "liffClientId", "liffRedirectUri"]) {
+              currentUrl.searchParams.delete(key);
+            }
+            liff.login({ redirectUri: currentUrl.toString() });
+          } else {
+            liff.login();
+          }
           return;
         }
 
