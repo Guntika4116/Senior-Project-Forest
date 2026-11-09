@@ -70,6 +70,48 @@ export async function POST(request: Request) {
     if (!isMyCoursesRequest) continue;
 
     console.info("ได้รับคำขอคอร์สเรียนของฉันแล้ว");
+
+    if (!event.replyToken) continue;
+
+    const accessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+
+    if (!accessToken) {
+      console.error("ยังไม่ได้ตั้งค่า LINE_CHANNEL_ACCESS_TOKEN");
+      return new Response("Messaging API is not configured", {
+        status: 503,
+      });
+    }
+
+    try {
+      const response = await fetch(
+        "https://api.line.me/v2/bot/message/reply",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            replyToken: event.replyToken,
+            messages: [
+              {
+                type: "text",
+                text: "ได้รับคำขอแล้ว กำลังทดสอบแสดงคอร์สเรียนของคุณ 🌳",
+              },
+            ],
+          }),
+          signal: AbortSignal.timeout(8000),
+        },
+      );
+
+      if (!response.ok) {
+        console.error("LINE ตอบกลับไม่สำเร็จ:", response.status);
+        return new Response("Reply failed", { status: 502 });
+      }
+    } catch {
+      console.error("เชื่อมต่อ LINE Reply API ไม่สำเร็จ");
+      return new Response("Reply unavailable", { status: 502 });
+    }
   }
 
   // บอก LINE ว่าเราได้รับคำขอเรียบร้อยแล้ว
