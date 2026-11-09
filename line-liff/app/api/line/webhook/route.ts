@@ -95,8 +95,81 @@ export async function POST(request: Request) {
             replyToken: event.replyToken,
             messages: [
               {
-                type: "text",
-                text: "ได้รับคำขอแล้ว กำลังทดสอบแสดงคอร์สเรียนของคุณ 🌳",
+                type: "flex",
+                altText: "คอร์สเรียนของฉัน (ตัวอย่าง)",
+                contents: {
+                  type: "bubble",
+                  size: "mega",
+                  hero: {
+                    type: "image",
+                    url: "https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg",
+                    size: "full",
+                    aspectRatio: "2.4:1",
+                    aspectMode: "cover",
+                  },
+                  body: {
+                    type: "box",
+                    layout: "vertical",
+                    spacing: "md",
+                    paddingAll: "20px",
+                    contents: [
+                      {
+                        type: "text",
+                        text: "ข้อมูลตัวอย่าง",
+                        size: "xs",
+                        color: "#888888",
+                      },
+                      {
+                        type: "text",
+                        text: "อบรมพันธุ์ไม้ครั้งที่ 3",
+                        weight: "bold",
+                        size: "xl",
+                        color: "#4C795F",
+                        wrap: true,
+                      },
+                      {
+                        type: "text",
+                        text: "เรียนรู้โครงสร้างเนื้อไม้\nการจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย",
+                        size: "sm",
+                        weight: "bold",
+                        color: "#4C795F",
+                        wrap: true,
+                      },
+                      {
+                        type: "text",
+                        text: "📅 08 เม.ย. 2569 - 10 เม.ย. 2569",
+                        size: "sm",
+                        color: "#686868",
+                        wrap: true,
+                      },
+                      {
+                        type: "text",
+                        text: "📍 ห้องประชุมพฤกษศาสตร์ ชั้น 3",
+                        size: "sm",
+                        color: "#686868",
+                        wrap: true,
+                      },
+                    ],
+                  },
+                  footer: {
+                    type: "box",
+                    layout: "vertical",
+                    paddingAll: "20px",
+                    paddingTop: "0px",
+                    contents: [
+                      {
+                        type: "button",
+                        style: "primary",
+                        color: "#609879",
+                        action: {
+                          type: "uri",
+                          label: "เรียน",
+                          uri: "https://liff.line.me/2010609183-kINtWyQr/courses",
+                        },
+                      },
+                    ],
+                  },
+                },
               },
             ],
           }),
