@@ -34,7 +34,20 @@ export async function POST(request: Request) {
   }
 
   // ผ่านการตรวจแล้ว ค่อยแปลงข้อความเป็นข้อมูลที่นำไปใช้ต่อได้
-  let payload: { events?: Array<{ type?: string }> };
+  let payload: {
+    events?: Array<{
+      type?: string;
+      replyToken?: string;
+      source?: {
+        type?: string;
+        userId?: string;
+      };
+      message?: {
+        type?: string;
+        text?: string;
+      };
+    }>;
+  };
 
   try {
     payload = JSON.parse(body);
@@ -49,7 +62,14 @@ export async function POST(request: Request) {
   // ตอนนี้แค่จดชนิดของเหตุการณ์ลง Log ยังไม่ได้ส่งข้อความตอบผู้ใช้
   // ตอนกด Verify ใน LINE Developers จะได้ events เป็น [] จึงไม่มี Log จากลูปนี้
   for (const event of payload.events) {
-    console.info("LINE webhook event:", event.type);
+    const isMyCoursesRequest =
+      event.type === "message" &&
+      event.message?.type === "text" &&
+      event.message.text?.trim() === "ดูคอร์สเรียนของฉัน";
+
+    if (!isMyCoursesRequest) continue;
+
+    console.info("ได้รับคำขอคอร์สเรียนของฉันแล้ว");
   }
 
   // บอก LINE ว่าเราได้รับคำขอเรียบร้อยแล้ว
