@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { demoCourses } from "@/lib/demo-courses";
-import { activeUser, revokeUser, withUserLock } from "@/lib/auth-store";
+import { DEMO_EMAIL } from "@/lib/line-auth";
 export const runtime = "nodejs";
 type LineEvent = {
   type?: string;
@@ -73,34 +73,30 @@ export async function POST(request: Request) {
       }
 
       try {
-        await withUserLock(userId, async () => {
-          // เพิกถอน session ก่อนเปลี่ยนเมนู: cookie เก่าจะเข้าเว็บไม่ได้แม้ยังอยู่ใน browser
-          await revokeUser(userId);
-          // ยกเลิกการผูกเมนู student เฉพาะผู้กด
-          // ไม่ลบตัวเมนู และไม่กระทบผู้ใช้คนอื่น
-          // LINE จะกลับไปใช้เมนูเริ่มต้น Guest ที่เปิดไว้ใน OA Manager
-          const unlinkResponse = await fetch(
-            `https://api.line.me/v2/bot/user/${encodeURIComponent(userId)}/richmenu`,
-            {
-              method: "DELETE",
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-              signal: AbortSignal.timeout(8000),
+        // ยกเลิกการผูกเมนู student เฉพาะผู้กด
+        // ไม่ลบตัวเมนู และไม่กระทบผู้ใช้คนอื่น
+        // LINE จะกลับไปใช้เมนูเริ่มต้น Guest ที่เปิดไว้ใน OA Manager
+        const unlinkResponse = await fetch(
+          `https://api.line.me/v2/bot/user/${encodeURIComponent(userId)}/richmenu`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
             },
+            signal: AbortSignal.timeout(8000),
+          },
+        );
+
+        if (!unlinkResponse.ok) {
+          console.error(
+            "เปลี่ยนกลับเมนู Guest ไม่สำเร็จ:",
+            unlinkResponse.status,
           );
 
-          if (!unlinkResponse.ok) {
-            console.error(
-              "เปลี่ยนกลับเมนู Guest ไม่สำเร็จ:",
-              unlinkResponse.status,
-            );
+          throw new Error("Rich menu unlink failed");
+        }
 
-            throw new Error("Rich menu unlink failed");
-          }
-
-        });
-        // ล้าง session และสลับเมนูสำเร็จแล้ว จึงตอบยืนยัน
+        // เดโม่เปลี่ยนเมนูเท่านั้น การ logout จริงจะเชื่อม API ของ backend ภายหลัง
         const replyResponse = await fetch(
           "https://api.line.me/v2/bot/message/reply",
           {
@@ -143,30 +139,6 @@ export async function POST(request: Request) {
       // จบ event นี้ ไม่เข้าเงื่อนไขโปรไฟล์หรือคอร์สเรียนต่อ
       continue;
     }
-    // การ์ดเก่า/ข้อความที่พิมพ์เองไม่ใช่สิทธิ์เข้าใช้งาน ตรวจ session ของ LINE user ทุกครั้ง
-    let account = null;
-    const isPersonalRequest = event.type === "message" && event.message?.type === "text" &&
-      typeof event.message.text === "string" && ["โปรไฟล์", "ดูคอร์สเรียนของฉัน"].includes(event.message.text.trim());
-    if (isPersonalRequest && event.source?.type === "user" && event.source.userId && event.replyToken) {
-      try {
-        account = await activeUser(event.source.userId);
-        if (!account) {
-          const liffId = process.env.NEXT_PUBLIC_LIFF_ID;
-          if (!liffId) throw new Error("LIFF is not configured");
-          const response = await fetch("https://api.line.me/v2/bot/message/reply", {
-            method: "POST",
-            headers: { Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`, "Content-Type": "application/json" },
-            body: JSON.stringify({ replyToken: event.replyToken, messages: [{ type: "text", text: `กรุณาเข้าสู่ระบบก่อนใช้งาน\nhttps://liff.line.me/${liffId}/login` }] }),
-            signal: AbortSignal.timeout(8000),
-          });
-          if (!response.ok) throw new Error("Login prompt failed");
-          continue;
-        }
-      } catch {
-        console.error("Account session lookup unavailable");
-        return new Response("Account unavailable", { status: 503 });
-      }
-    }
     const isProfileRequest = event.type === "message" &&
       event.message?.type === "text" &&
       typeof event.message.text === "string" &&
@@ -207,8 +179,8 @@ export async function POST(request: Request) {
         const profile = {
           name: lineProfile.displayName,
           pictureUrl: lineProfile.pictureUrl,
-          // อีเมลมาจากบัญชีเดโม่ที่ server ตรวจแล้ว ไม่ได้ดึงจาก Messaging API
-          email: account?.email || "ยังไม่ได้เชื่อมข้อมูลอีเมล",
+          // อีเมลตัวอย่างของเดโม่ ไม่ใช่อีเมลจริงจาก LINE หรือฐานข้อมูลสมาชิก
+          email: DEMO_EMAIL,
         };
         const response = await fetch("https://api.line.me/v2/bot/message/reply", {
           method: "POST",
@@ -282,7 +254,7 @@ export async function POST(request: Request) {
                       },
                       {
                         type: "text",
-                        text: "บัญชีผู้เรียนสำหรับการสาธิต",
+                        text: "อีเมลตัวอย่าง • ยังไม่เชื่อมระบบสมาชิก",
                         color: "#888888",
                         size: "xxs",
                         align: "center",
