@@ -62,6 +62,22 @@ export async function POST(request: Request) {
   for (const event of payload.events) {
     if (!event) continue;
 
+    const isProfileRequest =
+      event.type === "message" &&
+      event.message?.type === "text" &&
+      typeof event.message.text === "string" &&
+      event.message.text.trim() === "โปรไฟล์";
+
+    if (isProfileRequest) {
+      // โปรไฟล์ส่วนตัวแสดงเฉพาะในแชตตัวต่อตัวกับ OA
+      if (event.source?.type !== "user") continue;
+
+      console.info("ได้รับคำขอโปรไฟล์แล้ว");
+
+      // จบการจัดการ event นี้ ไม่ให้ไปเข้าเงื่อนไขคอร์สเรียน
+      continue;
+    }
+
     const isMyCoursesRequest =
       event.type === "message" &&
       event.message?.type === "text" &&
@@ -75,7 +91,7 @@ export async function POST(request: Request) {
     if (!event.replyToken) continue;
 
     console.info("ได้รับคำขอคอร์สเรียนของฉันแล้ว");
-    
+
 
     const accessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 
