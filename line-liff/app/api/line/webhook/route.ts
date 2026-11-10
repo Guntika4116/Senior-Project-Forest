@@ -52,6 +52,95 @@ export async function POST(request: Request) {
   for (const event of payload.events) {
     if (!event)
       continue;
+    // รับคำสั่งจากปุ่มออกจากระบบในการ์ดโปรไฟล์
+    const isLogoutRequest =
+      event.type === "postback" &&
+      event.postback?.data === "action=logout";
+
+    if (isLogoutRequest) {
+      if (event.source?.type !== "user") continue;
+
+      const userId = event.source.userId;
+      if (!userId || !event.replyToken) continue;
+
+      const accessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+
+      if (!accessToken) {
+        return new Response("Messaging API is not configured", {
+          status: 503,
+        });
+      }
+
+      try {
+        // ยกเลิกการผูกเมนู student เฉพาะผู้กด
+        // ไม่ลบตัวเมนู และไม่กระทบผู้ใช้คนอื่น
+        // LINE จะกลับไปใช้เมนูเริ่มต้น Guest ที่เปิดไว้ใน OA Manager
+        const unlinkResponse = await fetch(
+          `https://api.line.me/v2/bot/user/${encodeURIComponent(userId)}/richmenu`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            signal: AbortSignal.timeout(8000),
+          },
+        );
+
+        if (!unlinkResponse.ok) {
+          console.error(
+            "เปลี่ยนกลับเมนู Guest ไม่สำเร็จ:",
+            unlinkResponse.status,
+          );
+
+          return new Response("Rich menu unlink failed", {
+            status: 502,
+          });
+        }
+
+        // ตอนนี้เปลี่ยนเฉพาะเมนู ยังไม่ได้ยกเลิก session ของเว็บ
+        // เมื่อมีระบบ session ต้องเพิ่มการยกเลิก session ก่อนแจ้งว่าออกจากระบบสำเร็จ
+        const replyResponse = await fetch(
+          "https://api.line.me/v2/bot/message/reply",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              replyToken: event.replyToken,
+              messages: [
+                {
+                  type: "text",
+                  text: "เปลี่ยนเป็นเมนูผู้เยี่ยมชมแล้ว หากยังเห็นเมนูเดิม กรุณาออกจากห้องแชตแล้วเปิดใหม่",
+                },
+              ],
+            }),
+            signal: AbortSignal.timeout(8000),
+          },
+        );
+
+        if (!replyResponse.ok) {
+          console.error(
+            "เปลี่ยนเมนูแล้ว แต่ส่งข้อความยืนยันไม่สำเร็จ:",
+            replyResponse.status,
+          );
+
+          return new Response("Logout reply failed", {
+            status: 502,
+          });
+        }
+      } catch {
+        console.error("เชื่อมต่อ LINE เพื่อเปลี่ยนเมนูไม่สำเร็จ");
+
+        return new Response("Logout request unavailable", {
+          status: 502,
+        });
+      }
+
+      // จบ event นี้ ไม่เข้าเงื่อนไขโปรไฟล์หรือคอร์สเรียนต่อ
+      continue;
+    }
     const isProfileRequest = event.type === "message" &&
       event.message?.type === "text" &&
       typeof event.message.text === "string" &&
