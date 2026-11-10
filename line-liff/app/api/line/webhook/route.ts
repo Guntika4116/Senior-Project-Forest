@@ -112,7 +112,7 @@ export async function POST(request: Request) {
               messages: [
                 {
                   type: "text",
-                  text: "เปลี่ยนเป็นเมนูผู้เยี่ยมชมแล้ว หากยังเห็นเมนูเดิม กรุณาออกจากห้องแชตแล้วเปิดใหม่",
+                  text: "ออกจากระบบแล้ว",
                 },
               ],
             }),
