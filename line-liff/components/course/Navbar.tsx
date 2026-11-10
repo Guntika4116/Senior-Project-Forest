@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Suspense } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const menus = [
     {
@@ -30,19 +31,32 @@ const menus = [
     },
 ];
 
-export default function Navbar() {
+// ครอบ Suspense เพราะหน้าเดิมบางหน้าเป็น static แต่ต้องอ่าน query ของคอร์ส
+export default function Navbar({ courseId }: { courseId?: string }) {
+    return <Suspense fallback={null}><CourseNavbar courseId={courseId} /></Suspense>;
+}
+
+function CourseNavbar({ courseId: selectedCourseId }: { courseId?: string }) {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
+    // หน้า LIFF ส่งผ่าน prop ส่วนหน้าเนื้อหา/สอบ/คะแนนอ่านจาก query
+    const courseId = selectedCourseId ?? searchParams.get("courseId");
 
     return (
         <nav className="bg-emerald-100 px-10 py-3 fixed bottom-0 w-full">
             <div className="flex justify-between items-center">
                 {menus.map((menu) => {
-                    const active = pathname.startsWith(menu.href);
+                    const active = pathname.startsWith(menu.href) ||
+                        (menu.href === "/course/overview" && pathname.startsWith("/woods/courses/"));
+                    // ส่งรหัสเดิมต่อเมื่อสลับแท็บ ไม่ให้กลับภาพรวมแล้วหลุดจากคอร์ส
+                    const href = courseId
+                        ? `${menu.href}?courseId=${encodeURIComponent(courseId)}`
+                        : menu.href;
 
                     return (
                         <Link
                             key={menu.href}
-                            href={menu.href}
+                            href={href}
                             className={`flex flex-col items-center ${menu.padding} py-3 rounded-full transition-colors ${
                                 active
                                     ? "bg-emerald-700 text-white"
