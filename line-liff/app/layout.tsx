@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Prompt } from "next/font/google";
 import "./globals.css";
 import LiffProvider from "./liff-provider";
+import SessionMonitor from "@/components/SessionMonitor";
 
 const prompt = Prompt({
   variable: "--font-prompt",
@@ -52,7 +53,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${prompt.variable} h-full antialiased`}
     >
       <body className={`${prompt.className} min-h-full flex flex-col`}>
-        <LiffProvider>{children}</LiffProvider>
+        <LiffProvider><SessionMonitor />{children}</LiffProvider>
         </body>
     </html>
   );

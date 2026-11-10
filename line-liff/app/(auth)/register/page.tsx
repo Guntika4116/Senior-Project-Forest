@@ -25,7 +25,7 @@ export default function Login() {
                     <button className="bg-emerald-700 text-white py-2 px-4 rounded mt-1" type="submit">ลงทะเบียน</button>
                 </form>
                 <p className="text-sm">หรือ</p>
-                <Link href="/login" className="w-full text-emerald-700 py-2 px-4 rounded border border-emerald-700 text-center" type="button">
+                <Link href="/woods/login" className="w-full text-emerald-700 py-2 px-4 rounded border border-emerald-700 text-center" type="button">
                     มีบัญชีอยู่แล้ว? เข้าสู่ระบบ
                 </Link>
             </div>

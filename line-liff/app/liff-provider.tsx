@@ -42,6 +42,7 @@ export default function LiffProvider({ children }: { children: React.ReactNode }
         if (!liff.isLoggedIn()) {
           const currentUrl = new URL(window.location.href);
           const isWoodsPage =
+            currentUrl.pathname === "/login" ||
             currentUrl.pathname === "/woods" ||
             currentUrl.pathname.startsWith("/woods/");
 
