@@ -69,12 +69,134 @@ export async function POST(request: Request) {
       event.message.text.trim() === "โปรไฟล์";
 
     if (isProfileRequest) {
-      // โปรไฟล์ส่วนตัวแสดงเฉพาะในแชตตัวต่อตัวกับ OA
+      // แสดงโปรไฟล์เฉพาะแชตส่วนตัวกับ OA
       if (event.source?.type !== "user") continue;
+      if (!event.replyToken) continue;
 
-      console.info("ได้รับคำขอโปรไฟล์แล้ว");
+      const accessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 
-      // จบการจัดการ event นี้ ไม่ให้ไปเข้าเงื่อนไขคอร์สเรียน
+      if (!accessToken) {
+        return new Response("Messaging API is not configured", {
+          status: 503,
+        });
+      }
+
+      // ข้อมูลสมมติ: ภายหลังเปลี่ยนเป็นบัญชีที่ผูกกับ event.source.userId
+      const profile = {
+        name: "ชื่อ นามสกุล",
+        email: "example@gmail.com",
+      };
+
+      try {
+        const response = await fetch(
+          "https://api.line.me/v2/bot/message/reply",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              replyToken: event.replyToken,
+              messages: [
+                {
+                  type: "flex",
+                  altText: "โปรไฟล์ของฉัน (ตัวอย่าง)",
+                  contents: {
+                    type: "bubble",
+                    size: "kilo",
+                    body: {
+                      type: "box",
+                      layout: "vertical",
+                      alignItems: "center",
+                      paddingAll: "20px",
+                      spacing: "sm",
+                      contents: [
+                        {
+                          type: "box",
+                          layout: "vertical",
+                          width: "72px",
+                          height: "72px",
+                          cornerRadius: "36px",
+                          backgroundColor: "#609879",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          contents: [
+                            {
+                              type: "text",
+                              text: "🌲",
+                              size: "xxl",
+                              align: "center",
+                            },
+                          ],
+                        },
+                        {
+                          type: "text",
+                          text: profile.name,
+                          color: "#609879",
+                          size: "md",
+                          weight: "bold",
+                          align: "center",
+                          wrap: true,
+                          margin: "md",
+                        },
+                        {
+                          type: "text",
+                          text: profile.email,
+                          color: "#609879",
+                          size: "sm",
+                          align: "center",
+                          wrap: true,
+                        },
+                        {
+                          type: "text",
+                          text: "ข้อมูลตัวอย่าง • ยังไม่ได้เชื่อมบัญชี",
+                          color: "#888888",
+                          size: "xxs",
+                          align: "center",
+                          wrap: true,
+                        },
+                      ],
+                    },
+                    footer: {
+                      type: "box",
+                      layout: "vertical",
+                      paddingTop: "0px",
+                      paddingBottom: "16px",
+                      paddingStart: "24px",
+                      paddingEnd: "24px",
+                      contents: [
+                        {
+                          type: "button",
+                          style: "primary",
+                          color: "#FF6268",
+                          height: "sm",
+                          action: {
+                            type: "message",
+                            label: "ออกจากระบบ",
+                            text: "ทดสอบออกจากระบบ",
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+            }),
+            signal: AbortSignal.timeout(8000),
+          },
+        );
+
+        if (!response.ok) {
+          console.error("ส่งการ์ดโปรไฟล์ไม่สำเร็จ:", response.status);
+          return new Response("Profile reply failed", { status: 502 });
+        }
+      } catch {
+        console.error("เชื่อมต่อ LINE เพื่อส่งโปรไฟล์ไม่สำเร็จ");
+        return new Response("Profile reply unavailable", { status: 502 });
+      }
+
+      // ไม่ให้ event โปรไฟล์ไหลไปทำส่วนคอร์สเรียนต่อ
       continue;
     }
 
