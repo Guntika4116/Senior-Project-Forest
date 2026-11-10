@@ -102,7 +102,7 @@ export async function POST(request: Request) {
     if (!event.replyToken) continue;
 
     console.info("ได้รับคำขอคอร์สเรียนของฉันแล้ว");
-    console.info("TEST_LINE_USER_ID:", event.source?.userId);
+    
 
     const accessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 
