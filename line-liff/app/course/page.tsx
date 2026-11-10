@@ -2,6 +2,7 @@
 
 import Search from "@/components/Search";
 import CourseCard from "@/components/course/CourseCard";
+import { demoCourses } from "@/lib/demo-courses";
 
 export default function Course() {
     return (
@@ -18,7 +19,9 @@ export default function Course() {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4 text-emerald-900 pt-0.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                     </svg>
-                    <p className="text-emerald-700 text-sm">ทั้งหมด 2 รายการ</p>
+                    <p className="text-emerald-700 text-sm">
+                        ทั้งหมด {demoCourses.length} รายการ
+                    </p>
                 </div>
             </div>
 
@@ -31,7 +34,7 @@ export default function Course() {
 
                         <p>อบรมทั้งหมด</p>
                     </div>
-                    <p>2</p>
+                    <p>{demoCourses.length}</p>
                 </div>
                 <div className="flex justify-between gap-2 items-center border border-gray-300 rounded-md py-2 px-3 w-full text-emerald-700 text-sm">
                     <div className="flex gap-2 items-center">
@@ -60,32 +63,25 @@ export default function Course() {
                 />
             </div>
 
-            {/* แสดงรายการอบรม */}
+            {/* แสดงรายการอบรม ข้อมูลอยู่ที่ demoCourses */}
             <div className="mt-4">
+                <p className="mb-3 text-sm text-zinc-500">
+                    ข้อมูลตัวอย่างสำหรับการสาธิต
+                </p>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <CourseCard
-                        key="" //{wood.id}
-                        id="1" //{wood.id}
-                        name="อบรมพรรณไม้ครั้งที่ 3" //{wood.commonname ?? ""}
-                        description="เรียนรู้โครงสร้างเนื้อไม้ การจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย และการลงทะเบียนข้อมูลอัตลักษณ์ไม้" //{wood.scientificname}
-                        imageUrl="https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg" //{wood.imageUrl?.[0] ?? ""}
-                        registered="1" //{wood.registered}
-                        date="19 เม.ย. 2569 - 25 เม.ย. 2569"
-                        location="อาคารใหม่"
-                    />
-                    {/* {woodDetail.map((wood) => (
-                        <EducateCard
-                            key={wood.id}
-                            id={wood.id}
-                            name="อบรมพรรณไม้ครั้งที่ 3" //{wood.commonname ?? ""}
-                            description="เรียนรู้โครงสร้างเนื้อไม้ การจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย และการลงทะเบียนข้อมูลอัตลักษณ์ไม้" //{wood.scientificname}
-                            imageUrl={wood.imageUrl?.[0] ?? ""}
-                            registered="1" //{wood.registered}
-                            date="19 เม.ย. 2569 - 25 เม.ย. 2569"
-                            location="อาคารใหม่"
-                            linkurl="o"
+                    {demoCourses.map((course) => (
+                        <CourseCard
+                            key={course.id}
+                            id={course.id}
+                            name={course.name}
+                            description={course.description}
+                            imageUrl={course.imageUrl}
+                            registered="1"
+                            date={course.date}
+                            location={course.location}
                         />
-                    ))} */}
+                    ))}
                 </div>
             </div>
         </main>
