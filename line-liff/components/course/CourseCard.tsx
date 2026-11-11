@@ -23,14 +23,15 @@ export default function CourseCard({
 
     return (
         // เปิด overview ของคอร์สเดียวกับที่แสดงบนการ์ด LINE
-        <Link href={`/woods/courses/${encodeURIComponent(id)}`} className="rounded-lg shadow-md w-full h-90 flex flex-col justify-end" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
-            <div className="relative bg-white p-4 rounded-b-lg justify-between items-center">
-                <div className="absolute -top-30 right-4 flex items-center justify-center gap-2 bg-emerald-100 w-fit px-2 rounded-full py-1">
+        <Link href={`/woods/courses/${encodeURIComponent(id)}`} className="relative rounded-lg shadow-md w-full h-100 flex flex-col justify-end" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
+            <div className="bg-white p-4 rounded-b-lg justify-between items-center">
+                <div className="absolute top-4 right-4 flex items-center justify-center gap-2 bg-emerald-100 w-fit px-2 rounded-full py-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
-                    <p className="text-sm ">เปิดรับสมัคร</p>
+                    <p className="text-sm">เปิดรับสมัคร</p>
                 </div>
+
                 <h3 className="text-lg font-semibold text-emerald-700">{name}</h3>
                 <p className="text-sm text-zinc-400">{description}</p>
                 <div className="p-2 flex flex-col gap-3">
