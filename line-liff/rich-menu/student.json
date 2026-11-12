@@ -8,7 +8,12 @@
   "chatBarText": "เมนู",
   "areas": [
     {
-      "bounds": { "x": 90, "y": 370, "width": 745, "height": 465 },
+      "bounds": {
+        "x": 90,
+        "y": 370,
+        "width": 745,
+        "height": 465
+      },
       "action": {
         "type": "uri",
         "label": "ค้นหาพรรณไม้",
@@ -16,15 +21,25 @@
       }
     },
     {
-      "bounds": { "x": 875, "y": 370, "width": 745, "height": 465 },
+      "bounds": {
+        "x": 875,
+        "y": 370,
+        "width": 745,
+        "height": 465
+      },
       "action": {
-        "type": "uri",
+        "type": "message",
         "label": "ดูคะแนน",
-        "uri": "https://liff.line.me/2010609183-kINtWyQr/score"
+        "text": "ดูคะแนน"
       }
     },
     {
-      "bounds": { "x": 1660, "y": 370, "width": 745, "height": 465 },
+      "bounds": {
+        "x": 1660,
+        "y": 370,
+        "width": 745,
+        "height": 465
+      },
       "action": {
         "type": "message",
         "label": "โปรไฟล์",
@@ -32,7 +47,12 @@
       }
     },
     {
-      "bounds": { "x": 90, "y": 870, "width": 1140, "height": 685 },
+      "bounds": {
+        "x": 90,
+        "y": 870,
+        "width": 1140,
+        "height": 685
+      },
       "action": {
         "type": "uri",
         "label": "คอร์สเรียนทั้งหมด",
@@ -40,7 +60,12 @@
       }
     },
     {
-      "bounds": { "x": 1265, "y": 870, "width": 1140, "height": 685 },
+      "bounds": {
+        "x": 1265,
+        "y": 870,
+        "width": 1140,
+        "height": 685
+      },
       "action": {
         "type": "message",
         "label": "คอร์สเรียนของฉัน",
