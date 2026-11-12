@@ -103,7 +103,7 @@ export async function POST(request: Request) {
 
       // จบ event คะแนน ไม่เข้าเงื่อนไขอื่นต่อ
       continue;
-    }เหม
+    }
     // รับคำสั่งจากปุ่มออกจากระบบในการ์ดโปรไฟล์
     const isLogoutRequest =
       event.type === "postback" &&
