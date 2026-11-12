@@ -53,6 +53,7 @@ export default function Login() {
           <h1 className="text-xl font-semibold text-emerald-800">เข้าสู่ระบบสำเร็จ</h1>
           <p className="text-sm text-zinc-600">เปลี่ยนเป็นเมนูผู้เรียนแล้ว คุณสามารถกลับไปที่แชตหรือเข้าคอร์สได้เลย</p>
           <button onClick={openCourse} className="w-full rounded-lg bg-[#609879] py-3 text-white">ไปหน้าคอร์สเรียน</button>
+          {liff.isInClient() && <button onClick={() => liff.closeWindow()} className="w-full rounded-lg border border-[#609879] py-3 text-[#4C795F]">กลับไปแชต LINE</button>}
         </section>
       ) : (
         <>

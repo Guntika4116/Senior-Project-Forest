@@ -1,5 +1,6 @@
 "use client";
 
+import BackNav from "@/components/BackNav";
 import Announcement from "@/components/course/Announcement";
 import Navbar from "@/components/course/Navbar";
 import type { Course } from "@/lib/demo-courses";
@@ -11,6 +12,7 @@ export default function OverviewContent({
 }) {
     return (
         <main>
+            <BackNav />
             <Navbar courseId={course.id} />
 
             {/* ใช้ข้อมูลคอร์สชุดเดียวกับการ์ด LINE โดยคงเค้าโครง overview เดิม */}

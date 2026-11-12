@@ -1,3 +1,4 @@
+import BackNav from "@/components/BackNav";
 import DetailAccordion from "@/components/wood/DetailAccordion";
 import ImageDetail from "@/components/ImageDetail";
 import woodDetail from "@/data/woodDetail.json"
@@ -35,6 +36,7 @@ export default async function page() {
 
   return (
     <main>
+      <BackNav />
 
       <div className="m-6">
         <div className="text-center">
