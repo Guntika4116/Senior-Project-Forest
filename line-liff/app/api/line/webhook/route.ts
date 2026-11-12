@@ -1,6 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { demoCourses } from "@/lib/demo-courses";
 import { DEMO_EMAIL } from "@/lib/line-auth";
+import { buildScoreMessage } from "@/lib/score-message";
 export const runtime = "nodejs";
 type LineEvent = {
   type?: string;
@@ -53,6 +54,56 @@ export async function POST(request: Request) {
   for (const event of payload.events) {
     if (!event)
       continue;
+    // รับข้อความจากปุ่มดูคะแนน หรือข้อความที่ผู้ใช้พิมพ์เอง
+    const isScoreRequest =
+      event.type === "message" &&
+      event.message?.type === "text" &&
+      typeof event.message.text === "string" &&
+      event.message.text.trim() === "ดูคะแนน";
+
+    if (isScoreRequest) {
+      if (event.source?.type !== "user") continue;
+      if (!event.replyToken) continue;
+
+      const accessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+      const liffId = process.env.NEXT_PUBLIC_LIFF_ID;
+
+      if (!accessToken || !liffId) {
+        console.error("ยังไม่ได้ตั้งค่า LINE สำหรับการ์ดคะแนน");
+        return new Response("Score messaging is not configured", {
+          status: 503,
+        });
+      }
+
+      try {
+        const response = await fetch(
+          "https://api.line.me/v2/bot/message/reply",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              replyToken: event.replyToken,
+              messages: [buildScoreMessage(liffId)],
+            }),
+            signal: AbortSignal.timeout(8000),
+          },
+        );
+
+        if (!response.ok) {
+          console.error("ส่งการ์ดคะแนนไม่สำเร็จ:", response.status);
+          return new Response("Score reply failed", { status: 502 });
+        }
+      } catch {
+        console.error("สร้างหรือส่งการ์ดคะแนนไม่สำเร็จ");
+        return new Response("Score reply unavailable", { status: 502 });
+      }
+
+      // จบ event คะแนน ไม่เข้าเงื่อนไขอื่นต่อ
+      continue;
+    }
     // รับคำสั่งจากปุ่มออกจากระบบในการ์ดโปรไฟล์
     const isLogoutRequest =
       event.type === "postback" &&
