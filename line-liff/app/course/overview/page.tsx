@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import OverviewContent from "@/components/course/OverviewContent";
-import { getDemoCourseById } from "@/lib/demo-courses";
+import { demoCourses } from "@/lib/demo-courses";
 
 // เส้นทางเดิมรับ ?courseId=demo-3 และใช้หน้าตาเดียวกับทางเข้า LIFF
 export default async function OverviewPage({
@@ -21,7 +21,7 @@ export default async function OverviewPage({
       </main>
     );
   }
-  const course = getDemoCourseById(courseId);
+  const course = demoCourses.find((item) => item.id === courseId);
   if (!course) notFound();
   return <OverviewContent course={course} />;
 }

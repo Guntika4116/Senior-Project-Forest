@@ -3,6 +3,7 @@
 import Announcement from "@/components/course/Announcement";
 import Navbar from "@/components/course/Navbar";
 import type { Course } from "@/lib/demo-courses";
+import Link from "next/link";
 
 export default function OverviewContent({
     course,
@@ -44,7 +45,7 @@ export default function OverviewContent({
                     </div>
                     <p className="bg-emerald-200/40 p-4 rounded-lg text-sm">{course.description}</p>
                     <div className="flex flex-col">
-                        <div className="border border-emerald-700/50 rounded-lg p-4">
+                        <div className="flex flex-col gap-2 border border-emerald-700/50 rounded-lg p-4">
                             <div className="flex gap-2 items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-7 p-1.5 bg-emerald-700 w-fit rounded-full text-white">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -53,8 +54,10 @@ export default function OverviewContent({
                                 <h2 className="text-emerald-700">สถานที่จัดอบรม</h2>
                             </div>
                             <div className="flex justify-between items-center">
-                                <p className="text-sm text-zinc-600">{course.location}</p>
-                                <p className="text-xs text-emerald-700 border border-emerald-700/50 rounded-full px-2 py-1">เปิดในแผนที่ ↗</p>
+                                <p className="min-w-0 flex-1 text-sm text-zinc-600">{course.location}</p>
+                                {course.mapUrl && (
+                                    <Link href={course.mapUrl} target="_blank" className="shrink-0 whitespace-nowrap text-xs text-emerald-700 border border-emerald-700/50 rounded-full px-2 py-1 w-fit">เปิด ↗</Link>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -71,12 +74,12 @@ export default function OverviewContent({
                         <div className="border border-emerald-700/50 rounded-lg p-4 flex gap-2">
                             <p className="px-4 py-2 bg-emerald-700 w-fit rounded-full text-white">p</p>
                             <div className="gap-2 items-center">
-                                <h2 className="text-emerald-700">{/* {teachby} */} Peerapat Meesangngoen</h2>
-                                <p className="text-sm text-zinc-600">{/* {email} */} instructor@gmail.com</p>
+                                <h2 className="text-emerald-700">{course.teachby}</h2>
+                                <p className="text-sm text-zinc-600">{course.email}</p>
 
                             </div>
                         </div>
-                        <p className="bg-emerald-200/40 px-4 py-2 rounded-lg text-xs text-zinc-500">* ผู้สอนที่ถูกเพิ่มในคอร์ส สามารถสร้าง/แก้ไข/ลบบทเรียนได้ แต่ไม่สามารถลบคอร์สได้</p>
+                        {/* <p className="bg-emerald-200/40 px-4 py-2 rounded-lg text-xs text-zinc-500">* ผู้สอนที่ถูกเพิ่มในคอร์ส สามารถสร้าง/แก้ไข/ลบบทเรียนได้ แต่ไม่สามารถลบคอร์สได้</p> */}
                     </div>
                 </div>
             </div>

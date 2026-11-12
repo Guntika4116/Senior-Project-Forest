@@ -10,22 +10,6 @@ export default function BackNavExamNTime({ onBack }: { onBack?: () => void } = {
 
         <div className="sticky top-0 z-20 bg-white w-full p-4 shadow-md flex flex-col gap-3">
             <div className="flex justify-between">
-                <Link
-                    href="#"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        if (onBack) {
-                            onBack();
-                        } else {
-                            router.back();
-                        }
-                    }}
-                    className="flex gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="size-6 text-emerald-700">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
-                    <p className="text-emerald-700">กลับ</p>
-                </Link>
                 <div className="flex gap-1 items-center bg-emerald-700/15 px-2 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4 text-emerald-700">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

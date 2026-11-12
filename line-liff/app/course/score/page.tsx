@@ -66,7 +66,7 @@ export default function Score() {
                             <div className="flex flex-col gap-2">
                                 <h2 className="text-emerald-700">สอบปฏิบัติการจำแนกชนิดไม้ด้วยแว่นขยาย (Wood ID Practical Test)</h2>
                                 <p className="text-zinc-400 text-xs">ทำแล้ว 1 ครั้ง ล่าสุด : 20 เม.ย. 2569 04:35</p>
-                                <p className="text-sm text-yellow-500">ยังไม่ผ่าน</p>
+                                <p className="text-sm text-yellow-500">4/10 ยังไม่ผ่าน</p>
                             </div>
                         </div>
 
@@ -78,10 +78,10 @@ export default function Score() {
                             <div className="flex flex-col gap-1">
                                 <h2 className="text-emerald-700">สอบปฏิบัติการจำแนกชนิดไม้ด้วยแว่นขยาย (Wood ID Practical Test)</h2>
                                 <p className="text-zinc-400 text-xs">ทำแล้ว 1 ครั้ง ล่าสุด : 20 เม.ย. 2569 04:35</p>
-                                <p className="text-sm text-emerald-700">10/10</p>
+                                <p className="text-sm text-emerald-700">10/10 ผ่าน</p>
                             </div>
                         </div>
-                        <p className="bg-emerald-200/40 px-4 py-2 rounded-lg text-xs text-zinc-500">* เกณฑ์ผ่าน {">"}= 80%</p>
+                        <p className="bg-emerald-200/40 px-4 py-2 rounded-lg text-xs text-zinc-500">* เกณฑ์ผ่านข้อสอบ {">"}= 80%</p>
                     </div>
                 </div>
             </div>

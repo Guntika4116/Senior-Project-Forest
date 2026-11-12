@@ -1,12 +1,9 @@
-import BackNavE from "@/components/exam/BackNavExam";
 import Link from "next/link";
 
 export default function ChooseExamPage() {
 
     return (
         <main>
-            <BackNavE />
-
             <div className="m-6 flex flex-col gap-4 ">
                 <Link href="/course/exam/doexam" className="flex flex-col items-center justify-center gap-2 p-10 bg-emerald-700 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" className="size-9 text-white">

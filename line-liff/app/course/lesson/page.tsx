@@ -22,7 +22,7 @@ export default function Lesson() {
                             </svg>
                             <p>จำนวนบทเรียน</p>
                         </div>
-                        <p>2</p>
+                        <p>1</p>
                     </div>
                     <div className="flex justify-between gap-2 items-center border border-gray-300 rounded-md py-2 px-3 w-full text-emerald-700 text-sm">
                         <div className="flex gap-2 items-center">
@@ -31,7 +31,7 @@ export default function Lesson() {
                             </svg>
                             <p>จำนวนการสอบ</p>
                         </div>
-                        <p>2</p>
+                        <p>3</p>
                     </div>
                     <div className="flex justify-between gap-2 items-center border border-gray-300 rounded-md py-2 px-3 w-full text-emerald-700 text-sm">
                         <div className="flex gap-2 items-center">
@@ -40,7 +40,7 @@ export default function Lesson() {
                             </svg>
                             <p>สมาชิกทั้งหมด</p>
                         </div>
-                        <p>2</p>
+                        <p>30</p>
                     </div>
                 </div>
 
