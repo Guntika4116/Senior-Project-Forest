@@ -1,12 +1,10 @@
 "use client";
 
-import BackNav from "@/components/BackNav";
 import Navbar from "@/components/course/Navbar";
 
 export default function DetailLesson() {
     return (
         <main>
-            <BackNav />
             <Navbar />
 
             <div className="m-6 mb-26 flex flex-col gap-4">

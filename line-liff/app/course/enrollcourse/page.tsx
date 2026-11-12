@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import BackNav from "@/components/BackNav";
 
 export default function Register() {
     const router = useRouter();
@@ -31,7 +30,6 @@ export default function Register() {
 
     return (
         <main>
-            <BackNav />
 
             <div className="m-6 flex flex-col gap-4">
                 <div className="text-white flex flex-col justify-center px-4 py-12 rounded-md" style={{ backgroundImage: `url("https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg")`, backgroundSize: 'cover' }}>
