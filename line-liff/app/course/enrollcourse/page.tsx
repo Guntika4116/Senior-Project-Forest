@@ -1,17 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getDemoCourseById } from "@/lib/demo-courses";
 
+// ครอบส่วนที่อ่าน query string เพื่อรองรับ production build
 export default function Register() {
+    return (
+        <Suspense fallback={<p className="m-6">กำลังโหลดคอร์ส...</p>}>
+            <EnrollmentForm />
+        </Suspense>
+    );
+}
+
+function EnrollmentForm() {
     const router = useRouter();
+    // อ่านรหัสคอร์สจาก URL เช่น ?courseId=demo-3
+    const searchParams = useSearchParams();
+    const courseId = searchParams.get("courseId") ?? "";
+    const course = getDemoCourseById(courseId);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const REGISTER_CODE = "1234";
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        if (submitting) return;
+        if (submitting || !course) return;
 
         const formData = new FormData(e.currentTarget);
         const code = String(formData.get("code") ?? "").trim();
@@ -20,21 +34,35 @@ export default function Register() {
         setError(null);
 
         if (code === REGISTER_CODE) {
-            router.push("/course/overview");
+            // เปิดภาพรวมของคอร์สที่ผู้ใช้เลือก
+            // ขั้นนี้ยังไม่ได้บันทึกสถานะการลงทะเบียน
+            router.push(`/woods/courses/${encodeURIComponent(course.id)}`);
             return;
         }
 
         setError("รหัสไม่ถูกต้อง");
         setSubmitting(false);
     }
-
+    if (!course) {
+        return (
+            <main className="m-6">
+                <p>ไม่พบคอร์ส กรุณาเลือกคอร์สจากหน้าคอร์สเรียนทั้งหมด</p>
+            </main>
+        );
+    }
     return (
         <main>
 
             <div className="m-6 flex flex-col gap-4">
-                <div className="text-white flex flex-col justify-center px-4 py-12 rounded-md" style={{ backgroundImage: `url("https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg")`, backgroundSize: 'cover' }}>
-                    <h1 className="text-lg">อบรมพรรณไม้ครั้งที่ 3 {/*{name}*/}</h1>
-                    <p className="text-sm">เรียนรู้โครงสร้างเนื้อไม้ การจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย และการลงทะเบียนข้อมูลอัตลักษณ์ไม้ {/*{description}*/}</p>
+                <div
+                    className="text-white flex flex-col justify-center px-4 py-12 rounded-md"
+                    style={{
+                        backgroundImage: `url("${course.imageUrl}")`,
+                        backgroundSize: "cover",
+                    }}
+                >
+                    <h1 className="text-lg">{course.name}</h1>
+                    <p className="text-sm">{course.description}</p>
                 </div>
 
                 <div className="flex flex-col gap-3 p-4 bg-white rounded-lg border border-zinc-300">
@@ -67,7 +95,9 @@ export default function Register() {
                         <p className="px-3.5 py-1 bg-emerald-700 w-fit rounded-full text-white">i</p>
                         <h1 className="text-emerald-700 font-bold text-lg">รายละเอียดอบรม</h1>
                     </div>
-                    <p className="bg-emerald-200/40 p-4 rounded-lg text-sm">เรียนรู้โครงสร้างเนื้อไม้ การจำแนกชนิดไม้ด้วยตาเปล่าและแว่นขยาย และการลงทะเบียนข้อมูลอัตลักษณ์ไม้ {/*{description}*/}</p>
+                    <p className="bg-emerald-200/40 p-4 rounded-lg text-sm">
+                        {course.description}
+                    </p>
                     <div className="flex flex-col">
                         <div className="border border-emerald-700/50 rounded-lg p-4">
                             <div className="flex gap-2 items-center">
@@ -78,7 +108,9 @@ export default function Register() {
                                 <h2 className="text-emerald-700">สถานที่จัดอบรม</h2>
                             </div>
                             <div className="flex justify-between items-center">
-                                <p className="text-sm text-zinc-600">ห้องประชุมพฤกษศาสตร์ ชั้น 3</p>
+                                <p className="text-sm text-zinc-600">
+                                    {course.location}
+                                </p>
                                 <p className="text-xs text-emerald-700 border border-emerald-700/50 rounded-full px-2 py-1">เปิดในแผนที่ ↗</p>
                             </div>
                         </div>

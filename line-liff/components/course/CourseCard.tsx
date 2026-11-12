@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isInitiallyEnrolled } from "@/lib/demo-enrollments";
 
 type CourseCardProps = {
     id: string;
@@ -20,10 +21,15 @@ export default function CourseCard({
     location,
 }: CourseCardProps) {
     const bgImage = imageUrl;
+    // เลือกหน้าเปิดตามสถานะเริ่มต้นของบัญชีเดโม่
+    const enrolled = isInitiallyEnrolled(id);
+    const courseHref = enrolled
+        ? `/woods/courses/${encodeURIComponent(id)}`
+        : `/course/enrollcourse?courseId=${encodeURIComponent(id)}`;
 
     return (
-        // เปิด overview ของคอร์สเดียวกับที่แสดงบนการ์ด LINE
-        <Link href={`/woods/courses/${encodeURIComponent(id)}`} className="relative rounded-lg shadow-md w-full h-100 flex flex-col justify-end" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
+        // คอร์สที่ลงทะเบียนแล้วเปิดภาพรวม ส่วนคอร์สที่ยังไม่ลงทะเบียนเปิดหน้ากรอกรหัส
+        <Link href={courseHref} className="relative rounded-lg shadow-md w-full h-100 flex flex-col justify-end" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' }}>
             <div className="bg-white p-4 rounded-b-lg justify-between items-center">
                 <div className="absolute top-4 right-4 flex items-center justify-center gap-2 bg-emerald-100 w-fit px-2 rounded-full py-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
