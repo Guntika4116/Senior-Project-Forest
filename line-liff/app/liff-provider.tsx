@@ -33,34 +33,24 @@ export default function LiffProvider({ children }: { children: React.ReactNode }
 
     async function initialize() {
       try {
-        // ลิงก์ LIFF ที่ต่อท้ายด้วย /score หรือ /courses จะเข้ามาที่ /woods ก่อน
+        // Endpoint คือ / ส่วนหน้าที่เลือก เช่น /woods หรือ /course อยู่ใน liff.state
         // LINE เก็บหน้าปลายทางไว้ใน liff.state ระหว่างพาไปหน้าที่เลือก
         const isPrimaryRedirect = new URL(window.location.href).searchParams.has("liff.state");
         await liff.init({ liffId: liffId! });
         if (!active) return;
 
+        // ให้ SDK ไปยังปลายทางก่อนเริ่มล็อกอินหรือแสดงหน้า
+        if (isPrimaryRedirect) return;
+
         if (!liff.isLoggedIn()) {
           const currentUrl = new URL(window.location.href);
-          const isWoodsPage =
-            currentUrl.pathname === "/login" ||
-            currentUrl.pathname === "/woods" ||
-            currentUrl.pathname.startsWith("/woods/");
-
-          if (isWoodsPage) {
-            // กลับมาหน้าเดิมหลังล็อกอิน เช่น เปิดหน้าลงทะเบียนแล้วต้องกลับมาหน้าลงทะเบียน
-            for (const key of ["code", "state", "liffClientId", "liffRedirectUri"]) {
-              currentUrl.searchParams.delete(key);
-            }
-            liff.login({ redirectUri: currentUrl.toString() });
-          } else {
-            liff.login();
+          // กลับมาหน้าที่กดจากริชเมนูหลังล็อกอิน รวมถึงหน้า /course
+          for (const key of ["code", "state", "liffClientId", "liffRedirectUri"]) {
+            currentUrl.searchParams.delete(key);
           }
+          liff.login({ redirectUri: currentUrl.toString() });
           return;
         }
-
-        // ถ้ายังอยู่ที่ทางผ่านของ LINE อย่าเพิ่งแสดงหน้าพรรณไม้
-        // รอให้ LINE เปิด URL ปลายทาง แล้วหน้านั้นจะเริ่มต้น LIFF ใหม่อีกครั้ง
-        if (isPrimaryRedirect) return;
 
         const lineProfile = await liff.getProfile();
         if (active) {
