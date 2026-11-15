@@ -5,6 +5,9 @@ export type Course = {
   imageUrl: string;
   date: string;
   location: string;
+  mapUrl?: string;
+  teachby?: string;
+  email?: string;
 };
 
 // ข้อมูลสมมติสำหรับเดโม่ ยังไม่ใช่รายการลงทะเบียนของผู้เรียน
@@ -18,6 +21,9 @@ export const demoCourses: Course[] = [
       "https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg",
     date: "08 เม.ย. 2570 - 10 เม.ย. 2570",
     location: "ห้องปฏิบัติการเนื้อไม้ อาคารฝึกอบรม ชั้น 3",
+    mapUrl: "https://maps.app.goo.gl/Sh8XKMmQqT9qcTN87",
+    teachby: "ดร. สมชาย ใจดี",
+    email: "somsri@gmail.com",
   },
   {
     id: "demo-4",
@@ -28,6 +34,9 @@ export const demoCourses: Course[] = [
       "https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg",
     date: "22 เม.ย. 2570 - 24 เม.ย. 2570",
     location: "ห้องจุลทรรศน์ อาคารวิทยาศาสตร์ป่าไม้ ชั้น 2",
+    mapUrl: "https://maps.app.goo.gl/Sh8XKMmQqT9qcTN87",
+    teachby: "ดร. สมชาย ใจดี",
+    email: "somsri@gmail.com",
   },
   {
     id: "demo-5",
@@ -38,6 +47,9 @@ export const demoCourses: Course[] = [
       "https://png.pngtree.com/thumb_back/fw800/background/20240625/pngtree-tree-planting-growth-love-of-nature-image_15824708.jpg",
     date: "06 พ.ค. 2570 - 08 พ.ค. 2570",
     location: "ศูนย์ฝึกภาคสนามและลานตรวจตัวอย่างไม้",
+    mapUrl: "https://maps.app.goo.gl/Sh8XKMmQqT9qcTN87",
+    teachby: "ดร. สมชาย ใจดี",
+    email: "somsri@gmail.com",
   },
 ];
 

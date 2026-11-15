@@ -1,6 +1,5 @@
 "use client";
 
-import BackNav from "@/components/BackNav";
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
@@ -27,8 +26,6 @@ export default function EnrollExamPage() {
 
     return (
         <main>
-            <BackNav />
-
             <div className="m-6 mb-26 flex flex-col gap-4">
                 <div className="flex flex-col gap-3 border border-zinc-300 rounded-lg p-4">
                     <h1 className="text-emerald-700 font-semibold">แบบทดสอบวัดความรู้พื้นฐานกาย วิภาคไม้และอัตลักษณ์ไม้เศรษฐกิจ</h1>
