@@ -17,7 +17,7 @@
       "action": {
         "type": "uri",
         "label": "ค้นหาพรรณไม้",
-        "uri": "https://liff.line.me/2010609183-kINtWyQr"
+        "uri": "https://liff.line.me/2010609183-kINtWyQr/search"
       }
     },
     {
@@ -56,7 +56,7 @@
       "action": {
         "type": "uri",
         "label": "คอร์สเรียนทั้งหมด",
-        "uri": "https://liff.line.me/2010609183-kINtWyQr"
+        "uri": "https://liff.line.me/2010609183-kINtWyQr/course"
       }
     },
     {
