@@ -457,8 +457,7 @@ export async function POST(request: Request) {
                         action: {
                           type: "uri",
                           label: "เรียน",
-                          // LIFF ต่อท้าย endpoint /woods เป็น /woods/courses/รหัสคอร์ส
-                          uri: `https://liff.line.me/2010609183-kINtWyQr/courses/${encodeURIComponent(course.id)}`,
+                          uri: `https://liff.line.me/2010609183-kINtWyQr/woods/courses/${encodeURIComponent(course.id)}`,
                         },
                       },
                     ],
