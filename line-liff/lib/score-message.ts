@@ -63,7 +63,7 @@ export function buildScoreMessage(liffId: string) {
     const action = {
       type: "uri",
       label: "ดูรายละเอียดคะแนน",
-      uri: `https://liff.line.me/${liffId}/score?courseId=${encodeURIComponent(course.id)}`,
+      uri: `https://liff.line.me/${liffId}/course/score?courseId=${encodeURIComponent(course.id)}`,
     };
 
     return [
