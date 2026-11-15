@@ -7,9 +7,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from uuid import uuid4
 
-from fastapi import FastAPI, File, Request, UploadFile
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import JSONResponse
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 PROFILE_DIR = Path(os.environ.get("OMR_PROFILE_DIR", str(BASE_DIR / "web_app/profiles/default"))).resolve()
@@ -18,7 +17,6 @@ SCAN_TIMEOUT_SECONDS = 60
 IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
 logger = logging.getLogger(__name__)
 app = FastAPI(title="OMR Web API")
-templates = Jinja2Templates(directory=str(BASE_DIR / "web_app/templates"))
 
 
 def error_response(status_code, code, message):
@@ -54,10 +52,6 @@ def run_job(work_dir, image_path=None):
     return payload
 
 
-@app.get("/", response_class=HTMLResponse)
-def home(request: Request):
-    # Retain the old upload page for diagnostics; /photoexam is the main UI.
-    return templates.TemplateResponse(request=request, name="index.html")
 
 
 @app.get("/api/health/")
